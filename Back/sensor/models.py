@@ -29,7 +29,7 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-class Sensors(models.Model):
+class Sensor(models.Model):
     type_sensors = models.CharField(max_length=50, choices=TYPE_SENSORS, blank=False)
     mac_address = models.CharField(max_length=17, unique=True, blank=False, validators=[validate_macAddress])
     unit_measure = models.CharField(max_length=5, blank=True, null=True)
@@ -41,7 +41,7 @@ class Sensors(models.Model):
         return self.mac_address
 
 class Ambient(models.Model):
-    sig = models.IntegerField(max_length=10, unique=True)
+    sig = models.IntegerField(unique=True)
     description = models.CharField(max_length=50)
     ni = models.CharField(max_length=15, blank=False)
     responsible = models.CharField(max_length=100, blank=False)
@@ -50,11 +50,7 @@ class Ambient(models.Model):
         return self.description
 
 class History(models.Model):
-    sensor = models.ForeignKey(Sensors, on_delete=models.CASCADE)
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     ambient = models.ForeignKey(Ambient, on_delete=models.CASCADE)
     value = models.FloatField(blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
-    # Perguntar se pode usar data e não inteiro
-
-    class Meta:
-        ordering = ['-date']  # Order by date descending
