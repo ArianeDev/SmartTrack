@@ -1,13 +1,13 @@
-from .models import User,Sensor, Ambient, History
+from .models import User, Sensor, Ambient, History
 from .permission import IsAdm
-from .serializer import SensorsSerializer, AmbientSerializer, HistorySerializer, UserSerializer
+from .serializer import SensorsSerializer, AmbientSerializer, HistorySerializer, UserSerializer, LoginSerializer
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -15,7 +15,7 @@ import pandas as pd
 
 #  Upload CSV file
 
-class UploadFileView(APIView):
+class UploadFile_Sensors(APIView):
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsAdm]
 
@@ -26,7 +26,7 @@ class UploadFileView(APIView):
             return Response({"error": "Nenhum arquivo enviado"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            df = pd.read_csv(file)
+            df = pd.read_excel(file)
             # Columns CSV
             columns = {"sensor", "mac_address", "unidade_medida", "longitude", "latitude", "status"}
 
@@ -60,14 +60,23 @@ def getUser(request):
     return Response(serializer.data)
 
 class Login(TokenObtainPairView):
-    serializer_class = UserSerializer
+    serializer_class = LoginSerializer
 
 # User methods
 
 class User_GET_POST(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAdm]
+
+    def get_permission(self):
+        if self.request.method == 'POST':
+            return [AllowAny()] # allow any user to create a new user
+        return [IsAdm()]
+
+# class User_GET_PUT_PATCH_DELETE(RetrieveUpdateDestroyAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     permission_classes = [IsAdm]
 
 # Sensors methods
 
@@ -94,4 +103,14 @@ class Sensors_GET_POST(ListCreateAPIView):
 class Sensors_GET_PUT_PATCH_DELETE(RetrieveUpdateDestroyAPIView):
     queryset = Sensor.objects.all()
     serializer_class = SensorsSerializer
+    permission_classes = [IsAdm]
+
+class Ambient_GET_POST(ListCreateAPIView):
+    queryset = Ambient.objects.all()
+    serializer_class = AmbientSerializer
+    permission_classes = [IsAdm]
+
+class Ambient_GET_PUT_PATCH_DELETE(RetrieveUpdateDestroyAPIView):
+    queryset = Ambient.objects.all()
+    serializer_class = AmbientSerializer
     permission_classes = [IsAdm]

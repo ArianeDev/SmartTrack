@@ -6,13 +6,13 @@ from .models import Sensor, Ambient, History, User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'phone', 'date_birth', 'tipo_usuario']
+        fields = ['id', 'username', 'email', 'phone', 'date_birth', 'type_user']
         read_only_fields = ['id']
 
 class SensorsSerializer(serializers.ModelSerializer):
     class Meta:
-        model: Sensor
-        fiels = '__all__'
+        model = Sensor
+        fields = '__all__'
 
 class AmbientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,6 +43,6 @@ class LoginSerializer(TokenObtainPairSerializer):
         data['user'] = {
             'username': self.user.username,
             'email': self.user.email,
-            'tipo_usuario': self.user.tipo_usuario,
+            'type_user': self.user.type_user,
         }
         return data
