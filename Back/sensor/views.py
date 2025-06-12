@@ -1,11 +1,13 @@
 from .models import User, Sensor, Ambient, History
 from .permission import IsAdm
 from .serializer import SensorsSerializer, AmbientSerializer, HistorySerializer, UserSerializer, LoginSerializer
+from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render
 from io import BytesIO
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -144,13 +146,25 @@ class ExportFile_Sensors(APIView):
 
     def get(self, request):
         try:
-            wb = openpyxl.Workbook()
+            sensor_type = request.query_params.get('type_sensors')
+
+            # Check if the type_sensors exists in the request
+            if not sensor_type:
+                return Response({"error": "Parâmetro 'type_sensors' é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            sensors = self.get_queryset().filter(type_sensors=sensor_type)
+
+            # Check if there are sensors with the specified type
+            if not sensors.exists():
+                return Response({"error": "Nenhum sensor encontrado com o tipo especificado"}, status=status.HTTP_404_NOT_FOUND)
+            
+            wb = openpyxl.Workbook() # create file
             ws = wb.active
-            ws.title = "Sensors"
+            ws.title = sensor_type.capitalize() # title the file
 
             ws.append(["Tipo de Sensor", "Endereço MAC", "Unidade de Medida", "Longitude", "Latitude", "Status"])
 
-            for sensor in self.get_queryset():    
+            for sensor in sensors:    
                 ws.append([
                     sensor.type_sensors,
                     sensor.mac_address,
@@ -164,12 +178,14 @@ class ExportFile_Sensors(APIView):
             wb.save(output)
             output.seek(0)
 
+            filename = f"{sensor_type}.xlsx"
+
             response = HttpResponse(
                 output,
                 content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
 
-            response['Content-Disposition'] = 'attachment; filename="sensors.xlsx"'
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
             return response
         
@@ -324,6 +340,58 @@ class History_GET_POST(ListCreateAPIView):
     serializer_class = HistorySerializer
     pagination_class = HistoryPaginated
     permission_classes = [IsAdm]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        id_history = self.request.query_params.get('id')
+        id_sensor = self.request.query_params.get('sensor')
+        id_ambient = self.request.query_params.get('ambient')
+        type_sensors = self.request.query_params.get('type_sensors')
+        date = self.request.query_params.get('timestamp')
+        VAILID_SENSOR = {"temperatura", "umidade", "luminosidade", "contador"}
+
+        # filter by id history
+        try:
+            if id_history:
+                queryset = queryset.filter(id=id_history)
+        except Exception as e:
+            raise ValidationError({"error": "ID de histórico inválido."})
+
+        # filter by sensor id
+        try:
+            if id_sensor:
+                queryset = queryset.filter(sensor=id_sensor)
+        except Exception as e:
+            raise ValidationError({"error": "ID de ambiente inválido."})
+        
+        # filter by ambient id
+        try:
+            if id_ambient:
+                queryset = queryset.filter(ambient=id_ambient)
+        except Exception as e:
+            raise ValidationError({"error": "ID de ambiente inválido."})
+
+        # filter by type of sensor
+        try:
+            if type_sensors:
+                if type_sensors.lower() not in VAILID_SENSOR:
+                    raise ValidationError({"error": "Tipo de sensor inválido. Use: temperatura, umidade, luminosidade ou contador."})
+                
+                queryset = queryset.filter(sensor__type_sensors=type_sensors)
+        except ValidationError as e:
+            raise e
+        
+        # filter by date
+        try:
+            if date:
+                queryset = queryset.filter(timestamp__date=date)
+        except Exception as e:
+            raise ValidationError({"error": "Data inválida. Use o formato YYYY-MM-DD."})
+
+        if queryset:
+            return queryset
+        else:
+            raise ValidationError({"message": "Não foi encontrado nenhum registro.", "status": status.HTTP_404_NOT_FOUND})
 
 class History_GET_PUT_PATCH_DELETE(RetrieveUpdateDestroyAPIView):
     queryset = History.objects.all()

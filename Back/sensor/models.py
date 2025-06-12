@@ -58,7 +58,7 @@ class Sensor(models.Model):
     status = models.CharField(max_length=10, blank=False)
 
     def __str__(self):
-        return self.mac_address
+        return self.type_sensors
 
 class Ambient(models.Model):
     sig = models.IntegerField(unique=True)
@@ -74,3 +74,9 @@ class History(models.Model):
     ambient = models.ForeignKey(Ambient, on_delete=models.CASCADE)
     value = models.FloatField(blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def date(self):
+        return self.timestamp.date()
+    
+    def time(self):
+        return self.timestamp.time()
