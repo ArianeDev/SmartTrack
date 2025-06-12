@@ -1,12 +1,9 @@
-import { Button } from "./Componets/Button"
-import { Input } from "./Componets/Input"
+import { Login } from "./Page/Login"
 
 function App() {
-
   return (
     <>
-      <Button />
-      <Input />
+      <Login />
     </>
   )
 }
