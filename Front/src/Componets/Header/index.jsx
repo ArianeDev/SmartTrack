@@ -8,9 +8,11 @@ export function Header({ linkHeader }){
                 <img src={Logo} alt="logo do SmartTrack" />
             </figure>
             <nav>
-                {linkHeader.map((item, key) => (
-                    <li>{item.name}</li>
-                ))}
+                <ul>
+                    {linkHeader.map((item) => (
+                        <li>{item.name}</li>
+                    ))}
+                </ul>
             </nav>
         </header>
     )

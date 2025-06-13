@@ -1,10 +1,35 @@
-import { Label } from '../../Componets/Label';
-import { Input } from '../../Componets/Input';
-import { Button } from '../../Componets/Button';
 import { Card_information } from '../../Componets/Card_informations';
+import { Forms } from '../../Componets/Forms';
 import './style.sass';
 
 export function Register(){
+	const registerForms = [
+		{
+			"nameLabel": "Nome: ",
+			"type": "text",
+			"placeholder": "Digite seu nome..."
+		},
+		{
+			"nameLabel": "Email: ",
+			"type": "email",
+			"placeholder": "Digite seu email..."
+		},
+		{
+			"nameLabel": "Telefone: ",
+			"type": "text",
+			"placeholder": "Digite nesse modelo: (xx)xxxxx-xxxx"
+		},
+		{
+			"nameLabel": "Senha: ",
+			"type": "password",
+			"placeholder": "Digite sua senha..."
+		},
+		{
+			"nameLabel": "Confirmar senha: ",
+			"type": "password",
+			"placeholder": "Digite a senha novamente..."
+		},
+	]
 	return(
 		<div className="register-container">
 			<div className="container">
@@ -12,33 +37,13 @@ export function Register(){
 					firtsText="Bem vindo(a)" 
 					secondText="Faça seu castro e aproveite para acessar sobre todos os sensores da cidade." 
 				/>
-				<section className="register-forms">
-					<h2>Cadastro</h2>
-					<form method="post">
-						<div className="container-input">
-							<Label text="Nome:" />
-							<Input type="text" placeholder="Digite seu nome..." />
-						</div>
-						<div className="container-input">
-							<Label text="E-mail:" />
-							<Input type="email" placeholder="Digite seu e-mail..." />
-						</div>
-						<div className="container-input">
-							<Label text="Telefone:" />
-							<Input type="text" placeholder="(xx)xxxxx-xxxx" />
-						</div>
-						<div className="container-input">
-							<Label text="Senha:" />
-							<Input type="password" placeholder="Digite sua senha..." />
-						</div>
-						<div className="container-input">
-							<Label text="Confirmar senha:" />
-							<Input type="password" placeholder="Confirme sua senha..." />
-						</div>
-						<Button text="Entrar" />
-					</form>
-					<p>Já tem cadastro? <span className='link'>Logar</span></p>
-				</section>
+				<Forms
+					title="Cadastro"
+					listForms={registerForms}
+					buttonTitle="Cadastrar"
+					text="Já tem login?"
+					link="Logar"
+				/>
 			</div>
 		</div>
 	)

@@ -1,4 +1,23 @@
+@use '../../Style/variables'
+
 header 
     display: flex
+    position: fixed
+    align-items: center
     justify-content: space-between
-    height: 9vh
+    padding: 0 5rem
+    height: 10vh
+    width: 100%
+
+    figure
+        img
+            height: 2.5rem
+
+    nav
+        ul
+            display: flex
+            list-style-type: none
+            
+            li
+                padding: 0 1rem
+                color: variables.$color-white
