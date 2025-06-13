@@ -138,7 +138,7 @@ class UploadFile_History(APIView):
 # Export CSV file
 # Sensors, Ambient and History
 
-class ExportFile_Sensors(APIView):    
+class ExportFile_Sensors(APIView):
     permission_classes = [IsAdm]
 
     def get_queryset(self):
@@ -164,7 +164,7 @@ class ExportFile_Sensors(APIView):
 
             ws.append(["Tipo de Sensor", "Endereço MAC", "Unidade de Medida", "Longitude", "Latitude", "Status"])
 
-            for sensor in sensors:    
+            for sensor in sensors:
                 ws.append([
                     sensor.type_sensors,
                     sensor.mac_address,
@@ -206,7 +206,7 @@ class ExportFile_Ambient(APIView):
 
             ws.append(["SIG", "Descrição", "NI", "Responsável"])
 
-            for ambient in self.get_queryset():    
+            for ambient in self.get_queryset():
                 ws.append([
                     ambient.sig,
                     ambient.description,

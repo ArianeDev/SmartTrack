@@ -1,9 +1,10 @@
+import { Register } from "./Page/Register"
 import { Login } from "./Page/Login"
 
 function App() {
   return (
     <>
-      <Login />
+      <Register />
     </>
   )
 }
