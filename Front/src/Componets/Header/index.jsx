@@ -1,4 +1,4 @@
-import Logo from "../../assets/img/Logo_puple.svg"
+import Logo from "../../assets/img/Logo.svg";
 import './style.sass';
 
 export function Header({ linkHeader }){

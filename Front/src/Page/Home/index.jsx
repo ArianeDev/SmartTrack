@@ -1,6 +1,6 @@
 import { CardSensors } from '../../Componets/Card_Sensors';
 import { Header } from '../../Componets/Header';
-import { Lightbulb } from 'lucide-react'
+import { CloudSun, Droplet, Lightbulb, UsersRound } from 'lucide-react';
 import './style.sass';
 
 export function Home(){
@@ -19,20 +19,44 @@ export function Home(){
             "img": <Lightbulb className='icon'/>,
             "imgTitle": "Luminosidade",
             "title": "Luminosidade",
-            "link": "/resgiter"
-        }
+            "link": "/register",
+            "text": "Monitore o consumo de energia."
+        },
+        {
+            "img": <CloudSun className='icon'/>,
+            "imgTitle": "Temperatura",
+            "title": "Temperatura",
+            "link": "/register",
+            "text": "Monitore a temperatura da cidade."
+        },
+        {
+            "img": <Droplet className='icon'/>,
+            "imgTitle": "Umidade",
+            "title": "Umidade",
+            "link": "/register",
+            "text": "Monitore o nível de umidade da cidade."
+        },
+        {
+            "img": <UsersRound className='icon'/>,
+            "imgTitle": "Pessoas",
+            "title": "Pessoas",
+            "link": "/register",
+            "text": "Monitore quantas pessoas circulam pela cidade."
+        },
     ]
     return(
         <>
             <Header linkHeader={linkHeader} />
             <main className='container-home'>
-                <h1>Seja bem vindo ao <span>SmartTrack</span></h1>
-                <div className="line"></div>
-                <p>
-                    Aqui você poderá visualizar todos os sensores da cidade. 
-                    É possível acessar e manipular os sensores listados a baixo.
-                </p>
-                <CardSensors listCard={itemsCard} />
+                <section className="texts">
+                    <h1 className='h1'>Seja bem vindo ao <span className='name'>SmartTrack</span></h1>
+                    <div className="line"></div>
+                    <p className='p'>
+                        Aqui você poderá visualizar todos os sensores da cidade. 
+                        É possível acessar e manipular os sensores listados a baixo.
+                    </p>
+                    <CardSensors listCard={itemsCard} />
+                </section>
             </main>
         </>
     )

@@ -9,17 +9,25 @@ export function CardSensors({ listCard }){
     }
 
     return(
-        <section>
+        <section className="cards-container">
             {listCard.map((item, key) => (
                 <button 
                     key={key}
-                    onClick={() => handClick(item.link)} 
-                    className="card-container"
+                    onClick={() => handClick(item.link)}
+                    className='flip-card'
                 >
-                    <figure title={item.imgTitle}>
-                        {item.img}
-                    </figure>
-                    <h3>{item.title}</h3>
+                    <div className="flip-card-inner">
+                        <div className="flip-card-front">
+                            <figure title={item.imgTitle}>
+                                {item.img}
+                            </figure>
+                            <p className="title">{item.title}</p>
+                        </div>
+                        <div className="flip-card-back">
+                            <p className="title">{item.title}</p>
+                            <p>{item.text}</p>
+                        </div>
+                    </div>
                 </button>
             ))}
         </section>

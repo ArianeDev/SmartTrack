@@ -2,6 +2,39 @@
 @use '../../Style/main'
 
 .container-home
-    background: variables.$gradient-color
-    padding-top: 10vh
+    background: variables.$gradient-pink_puple
+    color: variables.$color-white
+    padding: 14vh 0 0 6rem
     height: 100vh
+
+    .texts
+        height: 100%
+        width: 55%
+        display: flex
+        flex-direction: column
+        justify-content: space-evenly
+
+        .p, .h1
+            width: 60%
+            margin-left: 1rem
+        
+        .h1
+            font-size: 35px
+            font-weight: 300
+            letter-spacing: 0.1rem
+            line-height: 2
+        
+            .name
+                font-size: 40px
+                font-weight: 600
+                letter-spacing: 0.3rem
+
+        .p
+            font-size: 22px
+            line-height: 2.4
+            text-align: justify
+            text-indent: 20px
+
+        .line
+            border-bottom: 2px solid variables.$color-puple-80
+            width: 62%
