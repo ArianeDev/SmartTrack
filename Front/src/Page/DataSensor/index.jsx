@@ -89,6 +89,7 @@ export function DataSensor(){
 				</div>
 				<Table data={sensorData} columns={listColumns} />
 			</main>
+			
 		</>
 	)
 }
