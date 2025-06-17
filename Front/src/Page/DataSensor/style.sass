@@ -3,6 +3,32 @@
 
 .container-table
     display: flex
-    align-item: center
+    align-items: center
     justify-content: center
+    flex-direction: column
+    padding-top: 12vh
     background: variables.$gradient-pink_puple
+
+    .table-header
+        display: flex
+        justify-content: space-between
+        width: 82vw
+        color: variables.$color-white
+
+        h2
+            text-transform: capitalize
+
+
+        .buttons
+            display: flex
+            justify-content: space-between
+            width: 4%
+
+            button
+                color: variables.$color-white
+                background: transparent
+                border: none
+                cursor: pointer
+
+                button:hover
+                    color: variables.$gradient-color

@@ -11,7 +11,9 @@ export function Header({ linkHeader }){
             <nav>
                 <ul>
                     {linkHeader.map((item) => (
-                        <Link to={item.link}><li>{item.name}</li></Link>
+                        <Link to={item.link} className="link">
+                            <li>{item.name}</li>
+                        </Link>
                     ))}
                 </ul>
             </nav>

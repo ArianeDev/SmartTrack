@@ -70,6 +70,13 @@ ROOT_URLCONF = 'smart_city.urls'
 
 AUTH_USER_MODEL = 'sensor.User'
 
+# cors
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173", # url front
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

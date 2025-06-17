@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    Login,
+    Login, GetUser,
     UploadFile_Sensors, UploadFile_Ambient, UploadFile_History,
     ExportFile_Sensors, ExportFile_Ambient, ExportFile_History,
     User_GET_POST,
@@ -11,6 +11,7 @@ from .views import (
 
 urlpatterns = [
     path('login/', Login.as_view(), name='login'), 
+    path('user/', GetUser, name='data_user'),
     path('upload/sensors/', UploadFile_Sensors.as_view(), name='upload_file_sensors'),
     path('upload/ambient/', UploadFile_Ambient.as_view(), name='upload_file_ambient'),   
     path('upload/history/', UploadFile_History.as_view(), name='upload_file_history'),   

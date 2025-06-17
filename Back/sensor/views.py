@@ -272,7 +272,7 @@ class ExportFile_History(APIView):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def getUser(request):
+def GetUser(request):
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 

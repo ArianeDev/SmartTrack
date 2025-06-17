@@ -33,7 +33,17 @@ export function Table({ data, columns, submitDelete }){
                     {data.map((item, key) => (
                         <tr key={item.id || key}>
                             {columns.map((col, index) => (
-                                <td key={index}  className={index <= 1 ? 'firstItens' : 'itensTable'}>{item[col.key]}</td>
+                                <td 
+                                    key={index} 
+                                    className={`${index <= 1 ? 'firstItens' : 'itensTable'} `}>
+                                    {
+                                        col.key === 'status' ? (item[col.key] === 'ativo' ? 
+                                            <div className='green'></div> : 
+                                            <div className='red'></div>
+                                        ): item[col.key]
+                                    }
+                                </td>
+
                             ))}
                             <td className='icons'>
                                 <span title='Deletar'>

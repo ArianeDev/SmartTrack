@@ -1,19 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import './style.sass';
 
-export function CardSensors({ listCard }){
-    const navigate = useNavigate();
-
-    function handClick(link){
-        navigate(link);
-    }
-
+export function CardSensors({ listCard, onCardClick }){
     return(
         <section className="cards-container">
             {listCard.map((item, key) => (
                 <button 
                     key={key}
-                    onClick={() => handClick(item.link)}
+                    onClick={() => onCardClick(item.sensorType)}
                     className='flip-card'
                 >
                     <div className="flip-card-inner">

@@ -3,15 +3,20 @@ import { Label } from "../Label";
 import { Button } from "../Button";
 import './style.sass';
 
-export function Forms({ title, listForms, buttonTitle, text, link }){
+export function Forms({ title, listForms, buttonTitle, text, link, method, methodFunction }){
     return(
         <section className="container-forms">
             <h2>{title}</h2>
-            <form action="" method="post">
+            <form method={method} onSubmit={methodFunction}>
                 {listForms.map((item, key) => (
                     <div className="container-input">
                         <Label text={item.nameLabel} />
-                        <Input type={item.type} placeholder={item.placeholder} />
+                        <Input 
+                            type={item.type} 
+                            atributo={item.atributo} 
+                            placeholder={item.placeholder} 
+                            setFunction={item.setFunction}
+                        />
                     </div>
                 ))}
                 <Button text={buttonTitle} />
