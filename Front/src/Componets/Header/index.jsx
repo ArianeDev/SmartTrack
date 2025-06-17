@@ -1,4 +1,5 @@
 import Logo from "../../assets/img/Logo.svg";
+import { Link } from "react-router-dom";
 import './style.sass';
 
 export function Header({ linkHeader }){
@@ -10,7 +11,7 @@ export function Header({ linkHeader }){
             <nav>
                 <ul>
                     {linkHeader.map((item) => (
-                        <li>{item.name}</li>
+                        <Link to={item.link}><li>{item.name}</li></Link>
                     ))}
                 </ul>
             </nav>

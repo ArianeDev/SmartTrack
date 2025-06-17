@@ -3,14 +3,21 @@ import { Header } from '../../Componets/Header';
 import { CloudSun, Droplet, Lightbulb, UsersRound } from 'lucide-react';
 import './style.sass';
 
-export function Home(){
+export function HomeUser(){
     // items the in header
     const linkHeader = [
         {
-            "name": "Home"
+            "name": "Home",
+            "link": "/"
         },
         {
-            "name": "Login"
+            "name": "Histórico",
+            "link": "/history"
+        }
+		,
+        {
+            "name": "Sair",
+            "link": "/sair"
         }
     ]
     // items in the card
@@ -40,20 +47,21 @@ export function Home(){
             "img": <UsersRound className='icon'/>,
             "imgTitle": "Pessoas",
             "title": "Pessoas",
-            "link": "/register",
+            "link": "/sensor",
             "text": "Monitore quantas pessoas circulam pela cidade."
         },
     ]
+
     return(
         <>
             <Header linkHeader={linkHeader} />
-            <main className='container-home'>
+            <main className='container-homeUser'>
                 <section className="texts">
-                    <h1 className='h1'>Seja bem vindo ao <span className='name'>SmartTrack</span></h1>
+                    <h2>Seja bem vindo (a), Nome usuário</h2>
                     <div className="line"></div>
                     <p className='p'>
-                        Aqui você poderá visualizar todos os sensores da cidade. 
-                        É possível acessar e manipular os sensores listados a baixo.
+                        Você pode navegar entre os sensores listados nos cards a baixo, 
+						basta clicar no que deseja visualizar
                     </p>
                     <CardSensors listCard={itemsCard} />
                 </section>

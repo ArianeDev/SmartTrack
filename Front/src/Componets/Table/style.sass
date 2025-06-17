@@ -1,0 +1,56 @@
+@use '../../Style/variables'
+
+table
+    background-color: variables.$color-white
+    border-radius: 0.2rem
+    margin-top: 12vh
+    margin-bottom: 2rem
+    width: 82vw
+    height: auto
+    padding: 2rem
+
+    thead
+        height: 6vh
+
+        tr
+            th
+                font-weight: 500
+                word-wrap: break-word
+                overflow-wrap: break-word
+                text-align: start
+
+            .firstItens
+                width: 20rem
+
+        .actionData
+            width: 4rem
+
+    tbody
+
+        td
+            word-wrap: break-word
+            overflow-wrap: break-word
+            text-align: start
+
+        .icons
+            display: flex
+            flex-direction: row-reverse
+            justify-content: space-between
+            height: 10vh
+            align-items: center
+
+            button
+                background-color: transparent
+                border: none
+                cursor: pointer
+
+                .trash
+                    color: rgb(218, 0, 0)
+                    margin-left: 0.5rem
+
+                .userPen
+                    color: rgb(167, 167, 167)
+
+                .trash:hover, .userPen:hover
+                    color: rgb(207, 207, 207)
+                    transition: all .3s
