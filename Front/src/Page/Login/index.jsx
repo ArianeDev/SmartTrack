@@ -77,9 +77,7 @@ export function Login() {
     return (
         <main className="login-container">
                 {isLoading ? (
-                    <div className="background-loading">
-                        <Loader />
-                    </div>
+                    <Loader />
                 ) : (
                     <div className="container">
                         <Card_information 

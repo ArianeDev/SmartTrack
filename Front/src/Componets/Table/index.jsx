@@ -3,8 +3,9 @@ import { UserPen } from 'lucide-react';
 import { Trash2 } from 'lucide-react';
 import { Modal } from '../Modal';
 import './style.sass'
+import { Forms } from '../Forms';
 
-export function Table({ data, columns, submitDelete }){
+export function Table({ data, columns, submitDelete, listForms }){
     const [isOpen, setIsOpen] = useState(false);
     const [sensorSelect, setSensorSelect] = useState(null);
 
@@ -35,7 +36,7 @@ export function Table({ data, columns, submitDelete }){
                             {columns.map((col, index) => (
                                 <td 
                                     key={index} 
-                                    className={`${index <= 1 ? 'firstItens' : 'itensTable'} `}>
+                                    className='itensTable'>
                                     {
                                         col.key === 'status' ? (item[col.key] === 'ativo' ? 
                                             <div className='green'></div> : 
@@ -51,6 +52,7 @@ export function Table({ data, columns, submitDelete }){
                                 </span>
                                 <span title='Atualizar'>
                                     <button onClick={() => handleOpenModal(item)}><UserPen className='userPen'/></button>
+                                    {console.log(item)}
                                 </span>
                             </td>
                         </tr>
@@ -61,7 +63,20 @@ export function Table({ data, columns, submitDelete }){
                 <Modal
                     isOpen={isOpen}
                     onClose={handleCloseModal}
-                />
+                >
+                    {listForms.map((item,key) => (
+                        <Forms 
+                            title={item.title} 
+                            listForms={item.listForms} 
+                            buttonTitle={item.buttonTitle} 
+                            text="" 
+                            link="" 
+                            method={item.method} 
+                            methodFunction={item.methodFunction}
+                            error={item.error}
+                        />
+                    ))}
+                </Modal>
             )}
         </>
     )

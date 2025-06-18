@@ -4,8 +4,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Header } from "../../Componets/Header";
 import { Table } from "../../Componets/Table";
 import './style.sass';
+import { MenuActions } from "../../Componets/MenuActions";
 
 export function DataSensor(){
+	// sensor data
+	const [typeSensors, setTypeSensors] = useState('');
+	const [macAddress, setMacAddress] = useState('');
+	const [unitMeasure, setUnitMeasure] = useState('');
+	const [lagitude, setLatitude] = useState('');
+	const [longitude, setLongitude] = useState('');
+	const [status, setStatus] = useState('');
+
 	const token = localStorage.getItem('token');
 	const [sensorData, setSensorData] = useState([]);
 	const [nextPage, setNextPage] = useState(null);
@@ -31,27 +40,73 @@ export function DataSensor(){
 	const listColumns = [
 		{
 			"key": "type_sensors",
-			"label": "type_sensors"
+			"label": "Tipo do sensor"
 		},
 		{
 			"key": "mac_address",
-			"label": "mac_address"
+			"label": "Mac address"
 		},
 		{
 			"key": "unit_measure",
-			"label": "unit_measure"
+			"label": "Unidade de medida"
 		},
 		{
 			"key": "longitude",
-			"label": "longitude"
+			"label": "Longitude"
 		},
 		{
 			"key": "latitude",
-			"label": "latitude"
+			"label": "Latitude"
 		},
 		{
 			"key": "status",
-			"label": "status"
+			"label": "Status"
+		}
+	]
+	const listUpdate = [
+		{
+			"title": "Atualizar",
+			"listForms": [
+				{
+					"nameLabel": "Tipo do sensor:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": typeSensors,
+					setFunction: setTypeSensors
+				},
+				{
+					"nameLabel": "Mac address:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": macAddress,
+					setFunction: setMacAddress
+				},
+				{
+					"nameLabel": "Unidade de medida:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": unitMeasure,
+					setFunction: setUnitMeasure
+				},
+				{
+					"nameLabel": "Longitude:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": longitude,
+					setFunction: setLongitude
+				},
+				{
+					"nameLabel": "Unidade de medida:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": unitMeasure,
+					setFunction: setUnitMeasure
+				}
+			],
+			"buttonTitle": "Atualizar",
+			"method": "put",
+			"methodFunction": "",
+			"error": ""
 		}
 	]
 
@@ -74,7 +129,6 @@ export function DataSensor(){
 	useEffect(() => {
 		getSensors();
 	}, []);
-	console.log(sensorData)
 
 	return (
 		<>
@@ -87,9 +141,9 @@ export function DataSensor(){
 						<button disabled={!nextPage} onClick={() => getSensors(nextPage)}><ChevronRight /></button>
 					</div>
 				</div>
-				<Table data={sensorData} columns={listColumns} />
-			</main>
-			
+				<Table data={sensorData} columns={listColumns} listForms={listUpdate}/>
+				<MenuActions />
+			</main>			
 		</>
 	)
 }

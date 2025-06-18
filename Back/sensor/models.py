@@ -9,10 +9,10 @@ TYPE_USER = (
 )
 
 TYPE_SENSORS = (
-    ('T', 'Temperatura'),
-    ('U', 'Umidade'),
-    ('CP', 'Contador_pessoas'),
-    ('L', 'Luminosidade'),
+    ('temperatura', 'Temperatura'),
+    ('umidade', 'Umidade'),
+    ('contador', 'Contador_pessoas'),
+    ('luminosidade', 'Luminosidade'),
 )
 
 # Validators

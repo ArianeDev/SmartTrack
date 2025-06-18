@@ -1,0 +1,98 @@
+@use '../../Style/variables'
+
+.menuActions-container
+    position: fixed
+    display: flex
+    align-items: center
+    flex-direction: column-reverse
+    left: 95%
+    top: 94%
+    
+    .checkbox
+        opacity: 0
+        z-index: 10
+        cursor: pointer
+
+    .btn-menuActions
+        display: flex
+        align-items: center
+        justify-content: center
+        text-align: center
+        cursor: pointer
+        width: 50px
+        height: 50px
+        border-radius: 50%
+        font-size: 20px
+        background-color: variables.$color-white
+        box-shadow: 2px 2px 5px rgb(114, 114, 114)
+
+    .btn-menuActions:hover
+        
+
+    .menubtn-container
+        position: absolute
+        bottom: 5rem
+        display: flex
+        flex-direction: column
+        gap: 1rem
+
+        .option
+            width: 50px
+            height: 50px
+            border-radius: 50%
+            border: none
+            cursor: pointer
+            opacity: 0
+            transition: all 0.4s ease
+            pointer-events: none
+
+        .option-A.active
+            animation: option-A
+            animation-duration: .9s
+            opacity: 1
+
+        .option-B.active
+            animation: option-B
+            animation-duration: .9s
+            opacity: 1
+
+        .option-C.active
+            animation: option-C
+            animation-duration: .9s
+            opacity: 1
+        
+        .option-A.hide
+            transform: translateY(210px)
+            transition: .5s all
+            opacity: 0
+
+        .option-B.hide
+            transform: translateY(140px)
+            transition: .5s all
+            opacity: 0
+
+        .option-C.hide
+            transform: translateY(70px)
+            transition: .5s all
+            opacity: 0
+
+@keyframes option-A
+    0% 
+        transform: translateY(210px)
+        opacity: 0.5
+    100%
+        transform: translateY(0)
+
+@keyframes option-B
+    0% 
+        transform: translateY(140px)
+        opacity: 0.5
+    100%
+        transform: translateY(0)
+
+@keyframes option-C
+    0% 
+        transform: translateY(70px)
+        opacity: 0.5
+    100%
+        transform: translateY(0)

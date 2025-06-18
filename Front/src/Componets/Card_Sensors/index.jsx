@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import './style.sass';
 
 export function CardSensors({ listCard, onCardClick }){
