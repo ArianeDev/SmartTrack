@@ -4,15 +4,19 @@ import { Forms } from '../../Componets/Forms';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import './style.sass';
+import Loader from '../../Componets/Loader';
 
 export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    let error = '';
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setError('');
 
         try {
             const response = await api.post('login/', {
@@ -45,10 +49,10 @@ export function Login() {
 
         } catch (error) {
             console.error("Erro no login", error);
-            error = "Email ou senha inválidas.";
+            setError("Email ou senha inválidas.");
+        } finally {
+            setIsLoading(false);
         }
-
-        error = "Tente novamente!";       
     }
 
     const loginForms = [
@@ -68,24 +72,32 @@ export function Login() {
         }
     ]
 
+    console.log(error);
+    
     return (
         <main className="login-container">
-            <div className="container">
-                <Card_information 
-                    firtsText="Bem vindo(a) de volta" 
-                    secondText="Acesse as informações com o seu login" 
-                />
-                <Forms 
-                    title="Login" 
-                    listForms={loginForms} 
-                    buttonTitle="Entrar" 
-                    text="Não tem cadastro?" 
-                    link="Cadastrar" 
-                    mathod="post"
-                    methodFunction={handleLogin}
-                />
-                <p>{error}</p>
-            </div>
+                {isLoading ? (
+                    <div className="background-loading">
+                        <Loader />
+                    </div>
+                ) : (
+                    <div className="container">
+                        <Card_information 
+                            firtsText="Bem vindo(a) de volta" 
+                            secondText="Acesse as informações com o seu login" 
+                        />
+                        <Forms 
+                            title="Login" 
+                            listForms={loginForms} 
+                            buttonTitle="Entrar" 
+                            text="Não tem cadastro?" 
+                            link="Cadastrar" 
+                            mathod="post"
+                            methodFunction={handleLogin}
+                            error={error}
+                        />
+                    </div>
+                )}
         </main>
     )
 }

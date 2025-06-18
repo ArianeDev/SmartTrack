@@ -3,7 +3,7 @@ import { Label } from "../Label";
 import { Button } from "../Button";
 import './style.sass';
 
-export function Forms({ title, listForms, buttonTitle, text, link, method, methodFunction }){
+export function Forms({ title, listForms, buttonTitle, text, link, method, methodFunction, error }){
     return(
         <section className="container-forms">
             <h2>{title}</h2>
@@ -19,9 +19,13 @@ export function Forms({ title, listForms, buttonTitle, text, link, method, metho
                         />
                     </div>
                 ))}
+                {error &&
+                    <p>{error}</p>
+                }
                 <Button text={buttonTitle} />
             </form>
             <p>{text} <span className='link'>{link}</span></p>
+            
         </section>
     )
 }
