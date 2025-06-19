@@ -6,7 +6,7 @@
     align-items: center
     flex-direction: column-reverse
     left: 95%
-    top: 94%
+    top: 90%
     
     .checkbox
         opacity: 0
@@ -17,26 +17,41 @@
         display: flex
         align-items: center
         justify-content: center
-        text-align: center
         cursor: pointer
         width: 50px
         height: 50px
         border-radius: 50%
-        font-size: 20px
-        background-color: variables.$color-white
-        box-shadow: 2px 2px 5px rgb(114, 114, 114)
+        background: linear-gradient(145deg, #ffffff, #f0eaff)
+        color: variables.$main-color
+        box-shadow: 0 0 10px variables.$main-color, 0 0 20px variables.$main-color
+        transition: all .2s ease-in-out
+        
+        .iconUp, .iconDown
+            transition: all .2s ease-in-out
+
+        .iconUp:hover
+            transform: translateY(-5px)
+        
+        .iconDown:hover
+            transform: translateY(5px)
 
     .btn-menuActions:hover
-        
+        transform: scale(1.1)
+        box-shadow: 0 0 15px variables.$main-color, 0 0 30px variables.$main-color
 
     .menubtn-container
         position: absolute
         bottom: 5rem
         display: flex
         flex-direction: column
+        cursor: pointer
         gap: 1rem
 
         .option
+            display: flex
+            align-items: center
+            justify-content: center
+            color: variables.$main-color
             width: 50px
             height: 50px
             border-radius: 50%
@@ -45,6 +60,14 @@
             opacity: 0
             transition: all 0.4s ease
             pointer-events: none
+        
+        .option.active
+            pointer-events: auto
+
+        .option.active:hover
+            transform: scale(1.1)
+            box-shadow: 0 0 10px variables.$color-puple-80
+            transition: all 0.3s ease
 
         .option-A.active
             animation: option-A

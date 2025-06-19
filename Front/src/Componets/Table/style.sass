@@ -8,6 +8,7 @@ table
     width: 82vw
     height: auto
     padding: 2rem
+    table-layout: fixed
 
     thead
         height: 6vh
@@ -21,36 +22,58 @@ table
 
         .actionData
             width: 5rem
+            text-align: center
 
     tbody
+        tr
+            td, th
+                width: calc(100% / 6)
 
-        td
-            word-wrap: break-word
-            overflow-wrap: break-word
-            text-align: start
+            td
+                word-wrap: break-word
+                overflow-wrap: break-word
+                text-align: start
 
-        .icons
-            display: flex
-            flex-direction: row-reverse
-            justify-content: space-between
-            height: 10vh
-            align-items: center
+                .skeletonLine
+                    height: 20px
+                    background: linear-gradient(90deg, #eee, #ddd, #eee)
+                    background-size: 200% 100%
+                    animation: shimmer 1.2s infinite
+                    border-radius: 4px
+                    margin-top: 2rem 
 
-            button
-                background-color: transparent
-                border: none
-                cursor: pointer
+                .skeletonIcon
+                    width: 24px
+                    height: 24px
+                    border-radius: 4px
+                    background: linear-gradient(90deg, #eee, #ddd, #eee)
+                    background-size: 200% 100%
+                    animation: shimmer 1.2s infinite
+                    margin-top: 2rem 
 
-                .trash
-                    color: rgb(218, 0, 0)
-                    margin-left: 0.5rem
+            .icons
+                display: flex
+                flex-direction: row-reverse
+                justify-content: space-between
+                height: 10vh
+                width: 5rem
+                align-items: center
 
-                .userPen
-                    color: rgb(88, 88, 88)
+                button
+                    background-color: transparent
+                    border: none
+                    cursor: pointer
 
-                .trash:hover, .userPen:hover
-                    color: rgb(177, 177, 177)
-                    transition: all .3s
+                    .trash
+                        color: rgb(218, 0, 0)
+                        margin-left: 0.5rem
+
+                    .userPen
+                        color: rgb(88, 88, 88)
+
+                    .trash:hover, .userPen:hover
+                        color: rgb(177, 177, 177)
+                        transition: all .3s
 
 .green
     background-color: green
@@ -63,3 +86,9 @@ table
     border-radius: 50%
     height: 2rem
     width: 2rem
+
+@keyframes shimmer
+    0%
+        background-position: 200% 0
+    100%
+        background-position: -200% 0

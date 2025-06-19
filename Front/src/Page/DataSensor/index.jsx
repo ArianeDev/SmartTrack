@@ -8,10 +8,11 @@ import { MenuActions } from "../../Componets/MenuActions";
 
 export function DataSensor(){
 	// sensor data
-	const [typeSensors, setTypeSensors] = useState('');
-	const [macAddress, setMacAddress] = useState('');
-	const [unitMeasure, setUnitMeasure] = useState('');
-	const [lagitude, setLatitude] = useState('');
+	const [selectedId, setSelectedId] = useState(null);
+	const [type_sensors, setTypeSensors] = useState('');
+	const [mac_address, setMacAddress] = useState('');
+	const [unit_measure, setUnitMeasure] = useState('');
+	const [latitude, setLatitude] = useState('');
 	const [longitude, setLongitude] = useState('');
 	const [status, setStatus] = useState('');
 
@@ -19,9 +20,10 @@ export function DataSensor(){
 	const [sensorData, setSensorData] = useState([]);
 	const [nextPage, setNextPage] = useState(null);
 	const [prevPage, setPrevPage] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const sensor_type = localStorage.getItem("selectedSensor");
 
-	// items the in header
+	// header items
     const linkHeader = [
         {
             "name": "Home",
@@ -63,55 +65,22 @@ export function DataSensor(){
 			"label": "Status"
 		}
 	]
-	const listUpdate = [
-		{
-			"title": "Atualizar",
-			"listForms": [
-				{
-					"nameLabel": "Tipo do sensor:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": typeSensors,
-					setFunction: setTypeSensors
-				},
-				{
-					"nameLabel": "Mac address:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": macAddress,
-					setFunction: setMacAddress
-				},
-				{
-					"nameLabel": "Unidade de medida:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": unitMeasure,
-					setFunction: setUnitMeasure
-				},
-				{
-					"nameLabel": "Longitude:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": longitude,
-					setFunction: setLongitude
-				},
-				{
-					"nameLabel": "Unidade de medida:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": unitMeasure,
-					setFunction: setUnitMeasure
-				}
-			],
-			"buttonTitle": "Atualizar",
-			"method": "put",
-			"methodFunction": "",
-			"error": ""
-		}
-	]
+	
+
+	// function for fill in the modal
+	function handleSelectSensor(sensor) {
+		setSelectedId(sensor.id);
+		setTypeSensors(sensor.type_sensors);
+		setMacAddress(sensor.mac_address);
+		setUnitMeasure(sensor.unit_measure);
+		setLatitude(sensor.latitude);
+		setLongitude(sensor.longitude);
+		setStatus(sensor.status);
+	}
 
 	async function getSensors(pageUrl = "/sensors") {
         try {
+			setIsLoading(true)
             const response = await api.get(pageUrl, {
 				params: sensor_type ? { type_sensors: sensor_type } : {},
 				headers: {
@@ -123,11 +92,151 @@ export function DataSensor(){
 			setPrevPage(response.data.previous);
         } catch (error) {
 			console.error("Erro ao buscar sensores: ", error);
-        }
+        } finally {
+			setIsLoading(false)
+		}
     }
+
+	// Sensor Update 
+	const submitUpdateSensor = async () => {
+		const updateSensor = {
+			type_sensors,
+			mac_address,
+			unit_measure,
+			longitude,
+			latitude,
+			status
+		}
+		try{
+			const response = await api.put(`/sensor/${selectedId}/`, updateSensor, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			window.alert("Atualizado com sucesso!", response.data);
+			window.location.reload();
+		} catch (error) {
+			console.log("Dados enviados:", updateSensor);
+			window.alert("Erro ao atualizar.", error)
+		}
+	}
+
+	const handleSubmitUpdate = (e) => {
+		e.preventDefault();
+		submitUpdateSensor();
+	}
+
+	const listUpdate = [
+		{
+			"title": "Atualizar",
+			"listForms": [
+				{
+					"nameLabel": "Tipo do sensor:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": type_sensors,
+					setFunction: setTypeSensors,
+					"disabled": true
+				},
+				{
+					"nameLabel": "Mac address:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": mac_address,
+					setFunction: setMacAddress
+				},
+				{
+					"nameLabel": "Unidade de medida:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": unit_measure,
+					setFunction: setUnitMeasure
+				},
+				{
+					"nameLabel": "Longitude:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": longitude,
+					setFunction: setLongitude
+				},
+				{
+					"nameLabel": "Latitude:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": latitude,
+					setFunction: setLatitude
+				},
+				{
+					"nameLabel": "Status:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": status,
+					setFunction: setStatus
+				},
+			],
+			"buttonTitle": "Atualizar",
+			"method": "put",
+			"methodFunction": handleSubmitUpdate,
+			"error": ""
+		}
+	]
+	const listRegister = [
+		{
+			"title": "Cadastrar",
+			"listForms": [
+				{
+					"nameLabel": "Tipo do sensor:",
+					"type": "text",
+					"placeholder": "Digite o tipo do sensor...",
+					"atributo": type_sensors,
+					setFunction: setTypeSensors
+				},
+				{
+					"nameLabel": "Mac address:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": mac_address,
+					setFunction: setMacAddress
+				},
+				{
+					"nameLabel": "Unidade de medida:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": unit_measure,
+					setFunction: setUnitMeasure
+				},
+				{
+					"nameLabel": "Longitude:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": longitude,
+					setFunction: setLongitude
+				},
+				{
+					"nameLabel": "Latitude:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": latitude,
+					setFunction: setLatitude
+				},
+				{
+					"nameLabel": "Status:",
+					"type": "text",
+					"placeholder": "",
+					"atributo": status,
+					setFunction: setStatus
+				},
+			],
+			"buttonTitle": "Cadastrar",
+			"method": "post",
+			"methodFunction": "",
+			"error": ""
+		}
+	]
 	
 	useEffect(() => {
 		getSensors();
+		setIsLoading(true)
 	}, []);
 
 	return (
@@ -141,9 +250,15 @@ export function DataSensor(){
 						<button disabled={!nextPage} onClick={() => getSensors(nextPage)}><ChevronRight /></button>
 					</div>
 				</div>
-				<Table data={sensorData} columns={listColumns} listForms={listUpdate}/>
-				<MenuActions />
-			</main>			
+				<Table 
+					data={sensorData}
+					columns={listColumns}
+					listForms={listUpdate}
+					onSelect={handleSelectSensor}
+					loading={isLoading}
+				/>
+				<MenuActions listRegister={listRegister} />
+			</main>
 		</>
 	)
 }

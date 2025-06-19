@@ -19,6 +19,7 @@ export function Forms({ title, listForms, buttonTitle, text, link, method, metho
                             atributo={item.atributo} 
                             placeholder={item.placeholder} 
                             setFunction={item.setFunction}
+                            disabled={item.disabled}
                         />
                     </div>
                 ))}

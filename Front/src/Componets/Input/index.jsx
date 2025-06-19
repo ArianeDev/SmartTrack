@@ -1,6 +1,6 @@
 import './style.sass';
 
-export function Input({ type, placeholder, atributo, setFunction }) {
+export function Input({ type, placeholder, atributo, setFunction, disabled }) {
 	return (
 		<div className="textInputWrapper">
 			<input
@@ -9,6 +9,7 @@ export function Input({ type, placeholder, atributo, setFunction }) {
 				placeholder={placeholder}
 				onChange={(e) => setFunction(e.target.value)}
 				className="textInput"
+				disabled={disabled}
 				required
 			/>
 		</div>

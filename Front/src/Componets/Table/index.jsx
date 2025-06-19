@@ -5,7 +5,7 @@ import { Modal } from '../Modal';
 import './style.sass'
 import { Forms } from '../Forms';
 
-export function Table({ data, columns, submitDelete, listForms }){
+export function Table({ data, columns, submitDelete, listForms, onSelect, loading }){
     const [isOpen, setIsOpen] = useState(false);
     const [sensorSelect, setSensorSelect] = useState(null);
 
@@ -30,34 +30,57 @@ export function Table({ data, columns, submitDelete, listForms }){
                         <th className='actionData'>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {data.map((item, key) => (
-                        <tr key={item.id || key}>
-                            {columns.map((col, index) => (
-                                <td 
-                                    key={index} 
-                                    className='itensTable'>
-                                    {
-                                        col.key === 'status' ? (item[col.key] === 'ativo' ? 
-                                            <div className='green'></div> : 
-                                            <div className='red'></div>
-                                        ): item[col.key]
-                                    }
-                                </td>
-
+                {loading ? (
+                    <tbody>
+                        {[...Array(10)].map((_, i) => (
+                        <tr key={`skeleton-${i}`}>
+                            {columns.map((_, j) => (
+                            <td key={j}>
+                                <div className="skeletonLine" />
+                            </td>
                             ))}
-                            <td className='icons'>
-                                <span title='Deletar'>
-                                    <button onClick={() => submitDelete(item.id)}><Trash2 className='trash'/></button>
-                                </span>
-                                <span title='Atualizar'>
-                                    <button onClick={() => handleOpenModal(item)}><UserPen className='userPen'/></button>
-                                    {console.log(item)}
-                                </span>
+                            <td>
+                                <div className="skeletonIcon" />
                             </td>
                         </tr>
-                    ))}
-                </tbody>
+                        ))}
+                    </tbody>
+                ) : (
+                    <tbody>
+                        {data.map((item, key) => (
+                            <tr key={item.id || key}>
+                                {columns.map((col, index) => (
+                                    <td 
+                                        key={index} 
+                                        className='itensTable'>
+                                        {
+                                            col.key === 'status' ? (item[col.key] === 'ativo' ? 
+                                                <div className='green'></div>
+                                                :
+                                                <div className='red'></div>
+                                            ): item[col.key]
+                                        }
+                                    </td>
+
+                                ))}
+                                <td className='icons'>
+                                    <span title='Deletar'>
+                                        <button onClick={() => submitDelete(item.id)}><Trash2 className='trash'/></button>
+                                    </span>
+                                    <span title='Atualizar'>
+                                        <button 
+                                            onClick={() => {
+                                                handleOpenModal(item);
+                                                onSelect(item);
+                                            }}>
+                                            <UserPen className='userPen'/>
+                                        </button>
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                )}
             </table>
             {isOpen && (
                 <Modal
@@ -74,6 +97,7 @@ export function Table({ data, columns, submitDelete, listForms }){
                             method={item.method} 
                             methodFunction={item.methodFunction}
                             error={item.error}
+                            disabled={item.disabled}
                         />
                     ))}
                 </Modal>
