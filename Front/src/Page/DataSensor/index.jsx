@@ -180,6 +180,38 @@ export function DataSensor(){
 			"error": ""
 		}
 	]
+
+	// Register Sensor
+	const submitRegisterSensor = async () => {
+		const registerSensor = {
+			type_sensors,
+			mac_address,
+			unit_measure,
+			longitude,
+			latitude,
+			status
+		}
+		try {
+			const response = await api.post('/sensors/', registerSensor, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			window.alert("Sensor cadastrado com sucesso", response.data);
+			window.location.reload();
+		} catch (error) {
+			window.alert("Erro na requisição", error);
+		}
+	}
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (type_sensors) {
+			submitRegisterSensor();
+		} else {
+			window.alert("Preencha todos os campos!")
+		}
+	}
+
 	const listRegister = [
 		{
 			"title": "Cadastrar",
@@ -194,45 +226,60 @@ export function DataSensor(){
 				{
 					"nameLabel": "Mac address:",
 					"type": "text",
-					"placeholder": "",
+					"placeholder": "__:__:__:__:__:__",
 					"atributo": mac_address,
 					setFunction: setMacAddress
 				},
 				{
 					"nameLabel": "Unidade de medida:",
 					"type": "text",
-					"placeholder": "",
+					"placeholder": "Digite a unidade de medida...",
 					"atributo": unit_measure,
 					setFunction: setUnitMeasure
 				},
 				{
-					"nameLabel": "Longitude:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": longitude,
-					setFunction: setLongitude
-				},
-				{
 					"nameLabel": "Latitude:",
 					"type": "text",
-					"placeholder": "",
+					"placeholder": "Digite a latitude...",
 					"atributo": latitude,
 					setFunction: setLatitude
 				},
 				{
+					"nameLabel": "Longitude:",
+					"type": "text",
+					"placeholder": "Digite a longitude...",
+					"atributo": longitude,
+					setFunction: setLongitude
+				},
+				{
 					"nameLabel": "Status:",
 					"type": "text",
-					"placeholder": "",
+					"placeholder": "Digite o status...",
 					"atributo": status,
 					setFunction: setStatus
 				},
 			],
 			"buttonTitle": "Cadastrar",
 			"method": "post",
-			"methodFunction": "",
+			"methodFunction": handleSubmit,
 			"error": ""
 		}
 	]
+
+	// Export sensor data
+	const exportSensor = async () => {
+		try {
+			const response = await api.get('export/sensors/', {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+			window.alert("Exportado com sucesso!", response.data);
+
+		} catch (error) {
+			window.alert("Erro na requisição", error);
+		}
+	}
 	
 	useEffect(() => {
 		getSensors();
