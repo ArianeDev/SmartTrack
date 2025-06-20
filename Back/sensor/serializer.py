@@ -20,9 +20,12 @@ class AmbientSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class HistorySerializer(serializers.ModelSerializer):
+    sensor_name = serializers.CharField(source='sensor.type_sensors', read_only=True)
+    ambient_name = serializers.CharField(source='ambient.description', read_only=True)
+
     class Meta:
         model = History
-        fields = '__all__'
+        fields = ['id', 'sensor', 'sensor_name', 'ambient', 'ambient_name', 'value', 'timestamp']
 
 # Login with email and password
 class LoginSerializer(TokenObtainPairSerializer):

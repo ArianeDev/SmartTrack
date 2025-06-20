@@ -73,7 +73,7 @@ class History(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     ambient = models.ForeignKey(Ambient, on_delete=models.CASCADE)
     value = models.FloatField(blank=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField()
 
     def date(self):
         return self.timestamp.date()

@@ -46,15 +46,35 @@ export function DataHistory(){
 		}
 	]
 
-	async function getHistorys(pageUrl = "/historys") {
+	// get History
+	async function getHistorys(pageUrl = "/historys/") {
 		try {
 			const response = await api.get(pageUrl, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
+			})
+
+			const historyMap = response.data.results.map(item => {
+				const date = new Date(item.timestamp);
+				const formattedDate = date.toLocaleString('pt-BR', {
+					day: '2-digit',
+					month: '2-digit',
+					year: 'numeric',
+					hour: '2-digit',
+					minute: '2-digit'
+				});
+
+				return {
+					// data selected from history
+					sensor: item.sensor_name,
+					ambient: item.ambient_name,
+					value: item.value,
+					timestamp: formattedDate 
+				};
 			});
-			
-			setHistoryData(response.data.results);
+
+			setHistoryData(historyMap);
 			setNextPage(response.data.next);
 			setPrevPage(response.data.previous);
 		} catch (error) {
@@ -62,6 +82,35 @@ export function DataHistory(){
 		}
 	}
 	
+	// Export data history
+	const exporHistorySensor = async () => {
+		try {
+			const response = await api.get(`export/history/`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+				responseType: 'blob',
+			});
+
+			const blob = new Blob([response.data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            });
+			
+			const url = window.URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', `History.xlsx`);
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+
+			window.alert("Exportado com sucesso!", response.data);
+
+		} catch (error) {
+			console.error("Erro ao exportar Excel:", error);
+			window.alert("Erro na requisição", error);
+		}
+	}
 	useEffect(() => {
 		getHistorys();
 	}, []);
@@ -97,7 +146,7 @@ export function DataHistory(){
 				/>
 				<MenuActions 
 					listRegister=""
-					exportExcel=""
+					exportExcel={exporHistorySensor}
 					urlType="history"
 				/>
 			</main>

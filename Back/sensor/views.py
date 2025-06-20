@@ -242,7 +242,7 @@ class ExportFile_History(APIView):
             ws = wb.active
             ws.title = "History"
 
-            ws.append(["Sensor", "Ambiente", "Valor", "Timestamp"])
+            ws.append(["sensor", "ambiente", "valor", "timestamp"])
 
             for history in self.get_queryset():    
                 ws.append([
