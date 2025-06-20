@@ -21,7 +21,7 @@ export function HomeUser(){
 		,
         {
             "name": "Sair",
-            "link": "/sair"
+            "link": "/"
         }
     ]
     // items in the card
@@ -51,7 +51,7 @@ export function HomeUser(){
             "img": <UsersRound className='icon'/>,
             "imgTitle": "Pessoas",
             "title": "Pessoas",
-            "sensorType": "pessoas",
+            "sensorType": "contador",
             "text": "Monitore quantas pessoas circulam pela cidade."
         },
     ]

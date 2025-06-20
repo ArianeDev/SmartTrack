@@ -56,7 +56,7 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                                         key={index} 
                                         className='itensTable'>
                                         {
-                                            col.key === 'status' ? (item[col.key] === 'ativo' ? 
+                                            col.key === 'status' ? (item[col.key].toLowerCase() === 'ativo' || item[col.key].toLowerCase() === "true" ? 
                                                 <div className='green'></div>
                                                 :
                                                 <div className='red'></div>
@@ -81,6 +81,14 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                                         </span>
                                     </td>
                                 )}
+                            </tr>
+                        ))}
+                        {Array.from({length: Math.max(0, 10 - data.length)}).map((_,key) => (
+                            <tr key={`empty-${key}`}>
+                                {columns.map((_, key) => (
+                                    <td key={key} className='empty-row'></td>
+                                ))}
+                                {urlType === 'S' && <td className='empty-row'></td>}
                             </tr>
                         ))}
                     </tbody>

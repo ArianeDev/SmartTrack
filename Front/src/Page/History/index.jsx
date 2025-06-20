@@ -170,6 +170,7 @@ export function DataHistory(){
 					urlType="history"
 				/>
 			</main>
+			<Footer />
 		</>
 	)
 }

@@ -60,6 +60,7 @@ export function HomePage(){
                     <CardSensors listCard={itemsCard} />
                 </section>
             </main>
+            <Footer />
         </>
     )
 }

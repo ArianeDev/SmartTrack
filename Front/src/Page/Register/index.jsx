@@ -77,6 +77,12 @@ export function Register(){
 			"setFunction": setPasswordConfirm
 		},
 	]
+
+	const onLinkClick = () => {
+        navigate("/login");
+    }
+    
+
 	return(
 		<div className="register-container">
 			<div className="container">
@@ -92,6 +98,7 @@ export function Register(){
 					methodFunction={handleSubmit}
 					text="Já tem login?"
 					link="Logar"
+					onLinkClick={onLinkClick}
 				/>
 			</div>
 		</div>

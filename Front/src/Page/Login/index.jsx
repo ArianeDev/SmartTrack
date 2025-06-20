@@ -89,7 +89,7 @@ export function Login() {
                             buttonTitle="Entrar" 
                             text="Não tem cadastro?" 
                             link="Cadastrar" 
-                            mathod="post"
+                            method="post"
                             methodFunction={handleLogin}
                             error={error}
                             onLinkClick={onLinkClick}
