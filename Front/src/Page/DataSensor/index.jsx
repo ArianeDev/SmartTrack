@@ -21,6 +21,7 @@ export function DataSensor(){
 	const [nextPage, setNextPage] = useState(null);
 	const [prevPage, setPrevPage] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [initialLoading, setInitialLoading] = useState(true);
 	const sensor_type = localStorage.getItem("selectedSensor");
 
 	// header items
@@ -65,7 +66,6 @@ export function DataSensor(){
 			"label": "Status"
 		}
 	]
-	
 
 	// function for fill in the modal
 	function handleSelectSensor(sensor) {
@@ -78,6 +78,7 @@ export function DataSensor(){
 		setStatus(sensor.status);
 	}
 
+	// Sensor get
 	async function getSensors(pageUrl = "/sensors") {
         try {
 			setIsLoading(true)
@@ -266,24 +267,45 @@ export function DataSensor(){
 		}
 	]
 
+	// Delete Sensor
+
 	// Export sensor data
-	const exportSensor = async () => {
+	const exportDataSensor = async () => {
 		try {
-			const response = await api.get('export/sensors/', {
+			const response = await api.get(`export/sensors/`, {
+				params: sensor_type ? { type_sensors: sensor_type } : {},
 				headers: {
-					Authorization: `Bearer ${token}`
-				}
+					Authorization: `Bearer ${token}`,
+				},
+				responseType: 'blob',
 			});
+
+			const blob = new Blob([response.data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            });
+			
+			const url = window.URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', `${sensor_type}.xlsx`);
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+
 			window.alert("Exportado com sucesso!", response.data);
 
 		} catch (error) {
+			console.error("Erro ao exportar Excel:", error);
 			window.alert("Erro na requisição", error);
 		}
 	}
 	
 	useEffect(() => {
-		getSensors();
-		setIsLoading(true)
+		const fetchData = async () => {
+			await getSensors();
+			setInitialLoading(false)
+		}
+		fetchData();
 	}, []);
 
 	return (
@@ -293,8 +315,20 @@ export function DataSensor(){
 				<div className="table-header">
 					<h2>{sensor_type}</h2>
 					<div className="buttons">
-						<button disabled={!prevPage} onClick={() => getSensors(prevPage)}><ChevronLeft /></button>
-						<button disabled={!nextPage} onClick={() => getSensors(nextPage)}><ChevronRight /></button>
+						<button 
+							disabled={!prevPage} 
+							onClick={() => getSensors(prevPage)}
+							className={`nav-btn ${!prevPage ? 'disabled' : ''}`}
+						>
+							<ChevronLeft />
+						</button>
+						<button 
+							disabled={!nextPage} 
+							onClick={() => getSensors(nextPage)}
+							className={`nav-btn ${!nextPage ? 'disabled' : ''}`}
+						>
+							<ChevronRight />
+						</button>
 					</div>
 				</div>
 				<Table 
@@ -302,12 +336,19 @@ export function DataSensor(){
 					columns={listColumns}
 					listForms={listUpdate}
 					onSelect={handleSelectSensor}
-					loading={isLoading}
+					loading={initialLoading}
+					urlType="S"
+					
 				/>
-				<MenuActions listRegister={listRegister} />
+				<MenuActions 
+					listRegister={listRegister}
+					exportExcel={exportDataSensor}
+					page="S"
+					urlType="sensors"
+				/>
 			</main>
 		</>
 	)
 }
 
-// Arrumar hover das setas, status, home
+// Arrumar status, home, cadastro(colocar sensor automatico), deletar e histórico

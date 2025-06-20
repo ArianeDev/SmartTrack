@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Header } from "../../Componets/Header";
 import { Table } from "../../Componets/Table";
+import { MenuActions } from "../../Componets/MenuActions";
 import './style.sass';
 
 export function DataHistory(){
@@ -11,7 +12,7 @@ export function DataHistory(){
 	const [nextPage, setNextPage] = useState(null);
 	const [prevPage, setPrevPage] = useState(null);
 
-	// items the in header
+	// header items
 	const linkHeader = [
 		{
 			"name": "Home",
@@ -45,18 +46,19 @@ export function DataHistory(){
 		}
 	]
 
-	async function getHistorys(pageUrl = "/history") {
+	async function getHistorys(pageUrl = "/historys") {
 		try {
 			const response = await api.get(pageUrl, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
 			});
+			
 			setHistoryData(response.data.results);
 			setNextPage(response.data.next);
 			setPrevPage(response.data.previous);
 		} catch (error) {
-			console.error("Erro ao buscar históricos: ", error);
+			console.error("Erro ao buscar históricos: ", error.response?.data || error.message);
 		}
 	}
 	
@@ -72,11 +74,32 @@ export function DataHistory(){
 				<div className="table-header">
 					<h2>Histórico</h2>
 					<div className="buttons">
-						<button disabled={!prevPage} onClick={() => getHistorys(prevPage)}><ChevronLeft /></button>
-						<button disabled={!nextPage} onClick={() => getHistorys(nextPage)}><ChevronRight /></button>
+						<button 
+							disabled={!prevPage} 
+							onClick={() => getHistorys(prevPage)}
+							className={`nav-btn ${!prevPage ? 'disabled' : ''}`}
+						>
+							<ChevronLeft />
+						</button>
+						<button 
+							disabled={!nextPage} 
+							onClick={() => getHistorys(nextPage)}
+							className={`nav-btn ${!nextPage ? 'disabled' : ''}`}
+						>
+							<ChevronRight />
+						</button>
 					</div>
 				</div>
-				<Table data={historyData} columns={listColumns} />
+				<Table 
+					data={historyData} 
+					columns={listColumns} 
+					rlType="history"
+				/>
+				<MenuActions 
+					listRegister=""
+					exportExcel=""
+					urlType="history"
+				/>
 			</main>
 		</>
 	)

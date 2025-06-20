@@ -5,7 +5,7 @@ import { Modal } from '../Modal';
 import './style.sass'
 import { Forms } from '../Forms';
 
-export function Table({ data, columns, submitDelete, listForms, onSelect, loading }){
+export function Table({ data, columns, submitDelete, listForms, onSelect, loading, urlType }){
     const [isOpen, setIsOpen] = useState(false);
     const [sensorSelect, setSensorSelect] = useState(null);
 
@@ -27,7 +27,9 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                         {columns.map((col, index) => (
                             <th key={index} className={index <= 1 ? 'firstItens' : ''}>{col.label}</th>
                         ))}
-                        <th className='actionData'>Ações</th>
+                        {urlType === 'S' && (
+                            <th className='actionData'>Ações</th>
+                        )}
                     </tr>
                 </thead>
                 {loading ? (
@@ -63,20 +65,22 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                                     </td>
 
                                 ))}
-                                <td className='icons'>
-                                    <span title='Deletar'>
-                                        <button onClick={() => submitDelete(item.id)}><Trash2 className='trash'/></button>
-                                    </span>
-                                    <span title='Atualizar'>
-                                        <button 
-                                            onClick={() => {
-                                                handleOpenModal(item);
-                                                onSelect(item);
-                                            }}>
-                                            <UserPen className='userPen'/>
-                                        </button>
-                                    </span>
-                                </td>
+                                {urlType === 'S' && (
+                                    <td className='icons'>
+                                        <span title='Deletar'>
+                                            <button onClick={() => submitDelete(item.id)}><Trash2 className='trash'/></button>
+                                        </span>
+                                        <span title='Atualizar'>
+                                            <button 
+                                                onClick={() => {
+                                                    handleOpenModal(item);
+                                                    onSelect(item);
+                                                }}>
+                                                <UserPen className='userPen'/>
+                                            </button>
+                                        </span>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    Login, GetUser,
+    Login, GetUser, User_GET_POST,
     UploadFile_Sensors, UploadFile_Ambient, UploadFile_History,
     ExportFile_Sensors, ExportFile_Ambient, ExportFile_History,
     User_GET_POST,
@@ -12,10 +12,10 @@ from .views import (
 urlpatterns = [
     path('login/', Login.as_view(), name='login'), 
     path('user/', GetUser, name='data_user'),
+    path('users/', User_GET_POST.as_view(), name='user_list_create'),
     path('upload/sensors/', UploadFile_Sensors.as_view(), name='upload_file_sensors'),
     path('upload/ambient/', UploadFile_Ambient.as_view(), name='upload_file_ambient'),   
     path('upload/history/', UploadFile_History.as_view(), name='upload_file_history'),   
-    path('users/', User_GET_POST.as_view(), name='user_list_create'),
     path('sensors/', Sensors_GET_POST.as_view(), name='sensors_list_create'),
     path('sensor/<int:pk>/', Sensors_GET_PUT_PATCH_DELETE.as_view(), name='sensors_detail'),
     path('ambients/', Ambient_GET_POST.as_view(), name='ambient_list_create'),

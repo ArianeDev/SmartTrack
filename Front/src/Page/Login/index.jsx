@@ -23,9 +23,6 @@ export function Login() {
                 email: email,
                 password: password
             });
-    
-            console.log("Resposta do servidor:", response.data);
-            console.log(email, password);
 
             const { access, refresh } = response.data;
     
@@ -72,7 +69,9 @@ export function Login() {
         }
     ]
 
-    console.log(error);
+    const onLinkClick = () => {
+        navigate("/register");
+    }
     
     return (
         <main className="login-container">
@@ -93,6 +92,7 @@ export function Login() {
                             mathod="post"
                             methodFunction={handleLogin}
                             error={error}
+                            onLinkClick={onLinkClick}
                         />
                     </div>
                 )}

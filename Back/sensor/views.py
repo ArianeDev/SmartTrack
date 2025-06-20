@@ -162,7 +162,7 @@ class ExportFile_Sensors(APIView):
             ws = wb.active
             ws.title = sensor_type.capitalize() # title the file
 
-            ws.append(["Tipo de Sensor", "Endereço MAC", "Unidade de Medida", "Longitude", "Latitude", "Status"])
+            ws.append(["sensor", "mac_address", "unidade_medida", "latitude", "longitude", "status"])
 
             for sensor in sensors:
                 ws.append([
@@ -285,7 +285,8 @@ class User_GET_POST(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def get_permission(self):
+    def get_permissions(self):  
+        print("get_permissions executado")
         if self.request.method == 'POST':
             return [AllowAny()] # allow any user to create a new user
         return [IsAdm()]

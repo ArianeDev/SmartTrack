@@ -37,7 +37,7 @@ validate_macAddress = RegexValidator(
 # Models 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=150, unique=True, validators=[validate_username])
+    username = models.CharField(max_length=150, unique=True, validators=[validate_username], blank=True, null=True)
     email = models.EmailField(max_length=254, unique=True, validators=[validate_email])
     phone = models.CharField(max_length=14, blank=True, null=True, validators=[validate_phone])
     date_birth = models.DateField(blank=True, null=True)
