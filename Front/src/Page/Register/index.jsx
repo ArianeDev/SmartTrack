@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Card_information } from '../../Componets/Card_informations';
 import { Forms } from '../../Componets/Forms';
+import { z } from 'zod';
 import './style.sass';
 
 export function Register(){
@@ -14,7 +15,41 @@ export function Register(){
 	const [password, setPassword] = useState('');
 	const [passwordConfirm, setPasswordConfirm] = useState('');
 
+	// user zod
+	const registerSchema = z.object({
+		username: z.string().min(1, 'Nome é obrigatório.'),
+		email: z.string().min(1, 'Email é obrigatório').email('Formato de email inválido, tem que conter @ e domínio.'),
+		phone: z.string().min(10, 'Telefone é obrigatório').regex(/^\(\d{2}\)\d{5}-\d{4}$/, 'Telefone deve estar no formato (xx)xxxxx-xxxx'),
+		password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+		passwordConfirm: z.string()
+			.min(6, 'Confirmação de senha é obrigatória')
+		}).refine((data) => data.password === data.passwordConfirm, {
+		message: 'As senhas são diferentes',
+		path: ['passwordConfirm']
+	});
+
+	// User register
 	const submitRegisterUser = async () => {
+		// to validate
+		const registerUserValidate = {
+			username,
+			email,
+			phone,
+			date_birth: null,
+			type_user: "A",
+			password,
+			passwordConfirm
+		}
+
+		const result = registerSchema.safeParse(registerUserValidate);
+
+		if (!result.success) {
+			const firstError = result.error.errors[0].message;
+			window.alert(`${firstError}`);
+			return;
+		}
+
+		// to back
 		const registerUser = {
 			username,
 			email,
@@ -23,6 +58,7 @@ export function Register(){
 			type_user: "A",
 			password
 		}
+
 		try {
 			const response = await api.post('/users/', registerUser);
 			window.alert("Usuário cadastrado com sucesso", response.data);

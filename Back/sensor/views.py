@@ -286,7 +286,6 @@ class User_GET_POST(ListCreateAPIView):
     serializer_class = UserSerializer
 
     def get_permissions(self):  
-        print("get_permissions executado")
         if self.request.method == 'POST':
             return [AllowAny()] # allow any user to create a new user
         return [IsAdm()]
