@@ -331,15 +331,17 @@ export function DataSensor(){
 						</button>
 					</div>
 				</div>
-				<Table 
-					data={sensorData}
-					columns={listColumns}
-					listForms={listUpdate}
-					onSelect={handleSelectSensor}
-					loading={initialLoading}
-					urlType="S"
-					
-				/>
+				<div className="filters">
+					<Table 
+						data={sensorData}
+						columns={listColumns}
+						listForms={listUpdate}
+						onSelect={handleSelectSensor}
+						loading={initialLoading}
+						urlType="S"
+						
+					/>
+				</div>
 				<MenuActions 
 					listRegister={listRegister}
 					exportExcel={exportDataSensor}

@@ -5,12 +5,16 @@ import { Header } from "../../Componets/Header";
 import { Table } from "../../Componets/Table";
 import { MenuActions } from "../../Componets/MenuActions";
 import './style.sass';
+import { Filters } from "../../Componets/Filters";
 
 export function DataHistory(){
 	const token = localStorage.getItem('token');
 	const [historyData, setHistoryData] = useState([]);
 	const [nextPage, setNextPage] = useState(null);
 	const [prevPage, setPrevPage] = useState(null);
+	// filters
+	const [selectedTypeSensor, setSelectedTypeSensor] = useState('');
+	const [selectedDate, setSelectedDate] = useState('');
 
 	// header items
 	const linkHeader = [
@@ -49,10 +53,16 @@ export function DataHistory(){
 	// get History
 	async function getHistorys(pageUrl = "/historys/") {
 		try {
+			const params = {}
+
+			if (selectedTypeSensor) params.type_sensors = selectedTypeSensor;
+			if (selectedDate) params.timestamp = selectedDate;
+
 			const response = await api.get(pageUrl, {
 				headers: {
 					Authorization: `Bearer ${token}`
-				}
+				},
+				params
 			})
 
 			const historyMap = response.data.results.map(item => {
@@ -79,6 +89,7 @@ export function DataHistory(){
 			setPrevPage(response.data.previous);
 		} catch (error) {
 			console.error("Erro ao buscar históricos: ", error.response?.data || error.message);
+			window.alert("Não foi encontrado nenhum resgistro");
 		}
 	}
 	
@@ -138,6 +149,15 @@ export function DataHistory(){
 							<ChevronRight />
 						</button>
 					</div>
+				</div>
+				<div className="filters">
+					<Filters 
+						selectedTypeSensor={selectedTypeSensor} 
+						selectedDate={selectedDate} 
+						setSelectedTypeSensor={setSelectedTypeSensor} 
+						setSelectedDate={setSelectedDate}
+						getHistorys={getHistorys}
+					/>
 				</div>
 				<Table 
 					data={historyData} 
