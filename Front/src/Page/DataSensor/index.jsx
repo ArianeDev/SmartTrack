@@ -80,8 +80,6 @@ export function DataSensor(){
 		mac_address: z.string()
 			.min(1, "Mac address é obrigatório"),
 		unit_measure: z.string().min(1, "Unidade de medida é obrigatória"),
-		latitude: z.number({ required_error: "Latitude é obrigatória" }),
-		longitude: z.number({ required_error: "Latitude é obrigatória" }),
 		status: z.enum(['ativo', 'inativo', 'false', 'true'], {
 			errorMap: () => ({ message: "Tipo do status inválido"})
 		}),
@@ -179,7 +177,8 @@ export function DataSensor(){
 					"type": "text",
 					"placeholder": "",
 					"atributo": unit_measure,
-					setFunction: setUnitMeasure
+					setFunction: setUnitMeasure,
+					"disabled": true
 				},
 				{
 					"nameLabel": "Longitude:",
@@ -375,6 +374,7 @@ export function DataSensor(){
 					<h2>{sensor_type}</h2>
 					<div className="buttons">
 						<button 
+							title="Anterior"
 							disabled={!prevPage} 
 							onClick={() => getSensors(prevPage)}
 							className={`nav-btn ${!prevPage ? 'disabled' : ''}`}
@@ -382,6 +382,7 @@ export function DataSensor(){
 							<ChevronLeft />
 						</button>
 						<button 
+							title="Próximo"
 							disabled={!nextPage} 
 							onClick={() => getSensors(nextPage)}
 							className={`nav-btn ${!nextPage ? 'disabled' : ''}`}

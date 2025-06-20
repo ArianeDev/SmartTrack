@@ -57,9 +57,9 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                                         className='itensTable'>
                                         {
                                             col.key === 'status' ? (item[col.key].toLowerCase() === 'ativo' || item[col.key].toLowerCase() === "true" ? 
-                                                <div className='green'></div>
+                                                <div className='green' title='Ativo'></div>
                                                 :
-                                                <div className='red'></div>
+                                                <div className='red' title='Inativo'></div>
                                             ): item[col.key]
                                         }
                                     </td>

@@ -1,4 +1,5 @@
 import { CardSensors } from '../../Componets/Card_Sensors';
+import { Footer } from '../../Componets/Footer'
 import { Header } from '../../Componets/Header';
 import { CloudSun, Droplet, Lightbulb, UsersRound } from 'lucide-react';
 import './style.sass';

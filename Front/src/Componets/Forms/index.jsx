@@ -8,7 +8,7 @@ export function Forms({ title, listForms, buttonTitle, text, link, method, metho
         <section className="container-forms">
             <h2>{title}</h2>
             {error &&
-                <p>{error}</p>
+                <p className="error">{error}</p>
             }
             <form method={method} onSubmit={methodFunction}>
                 {listForms.map((item, key) => (

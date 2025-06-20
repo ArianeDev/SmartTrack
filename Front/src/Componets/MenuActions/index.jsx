@@ -43,6 +43,7 @@ export function MenuActions({ listRegister, exportExcel, page, urlType }) {
                     <div className='menubtn-container'>
                         {page === 'S' && (
                             <button 
+                                title='Cadastrar'
                                 className={`option option-A ${isOpen ? 'active' : 'hide'}`} 
                                 onClick={() => {
                                     handleOpenModal();
@@ -53,6 +54,7 @@ export function MenuActions({ listRegister, exportExcel, page, urlType }) {
                             </button>
                         )}
                         <button 
+                            title='Exportar'
                             className={`option option-B ${isOpen ? 'active' : 'hide'}`} 
                             onClick={() => {
                                 exportExcel();
@@ -61,6 +63,7 @@ export function MenuActions({ listRegister, exportExcel, page, urlType }) {
                             <Upload />
                         </button>
                         <button 
+                            title='Importar'
                             className={`option option-C ${isOpen ? 'active' : 'hide'}`}
                             onClick={() => {
                                 handleOpenModal();

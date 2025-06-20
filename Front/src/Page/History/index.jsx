@@ -1,6 +1,7 @@
 import api from "../../Service/api";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Footer } from '../../Componets/Footer' 
 import { Header } from "../../Componets/Header";
 import { Table } from "../../Componets/Table";
 import { MenuActions } from "../../Componets/MenuActions";
@@ -135,6 +136,7 @@ export function DataHistory(){
 					<h2>Histórico</h2>
 					<div className="buttons">
 						<button 
+							title="Anterior"
 							disabled={!prevPage} 
 							onClick={() => getHistorys(prevPage)}
 							className={`nav-btn ${!prevPage ? 'disabled' : ''}`}
@@ -142,6 +144,7 @@ export function DataHistory(){
 							<ChevronLeft />
 						</button>
 						<button 
+							title="Próximo"
 							disabled={!nextPage} 
 							onClick={() => getHistorys(nextPage)}
 							className={`nav-btn ${!nextPage ? 'disabled' : ''}`}
