@@ -40,7 +40,7 @@ export function UploadExcel({ onClose, urlType }) {
         }
     }
     return (
-        <form onSubmit={uploadFile}>
+        <form onSubmit={uploadFile} className='container-exportForm'>
             <input type="file" name="file" accept=".xlsx" onChange={handleFileChange} />
             <button type="submit">Importar Excel</button>
         </form>
