@@ -19,7 +19,7 @@ export function Register(){
 	const registerSchema = z.object({
 		username: z.string().min(1, 'Nome é obrigatório.'),
 		email: z.string().min(1, 'Email é obrigatório').email('Formato de email inválido, tem que conter @ e domínio.'),
-		phone: z.string().min(10, 'Telefone é obrigatório').regex(/^\(\d{2}\)\d{5}-\d{4}$/, 'Telefone deve estar no formato (xx)xxxxx-xxxx'),
+		phone: z.string().min(10, 'Insirá o telefone corretamente').regex(/^\(\d{2}\)\d{5}-\d{4}$/, 'Telefone deve estar no formato (xx)xxxxx-xxxx'),
 		password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
 		passwordConfirm: z.string()
 			.min(6, 'Confirmação de senha é obrigatória')
@@ -64,7 +64,7 @@ export function Register(){
 			window.alert("Usuário cadastrado com sucesso", response.data);
 			navigate('/login')
 		} catch (error) {
-			window.alert("Erro na requisição", error);
+			window.alert("Tente novamente.", error);
 		}
 	}
 	const handleSubmit = (e) => {

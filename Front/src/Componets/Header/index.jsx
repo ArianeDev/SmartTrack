@@ -2,9 +2,23 @@ import Logo from "../../assets/img/Logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { LogOut } from 'lucide-react';
 import './style.sass';
+import { useEffect, useState } from "react";
 
 export function Header({ linkHeader }){
+    const [scrolled, setScrolled] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const isScrolled = window.scrollY > 50;
+            setScrolled(isScrolled);
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     function handleLogout() {
         localStorage.removeItem('token');
@@ -16,7 +30,7 @@ export function Header({ linkHeader }){
     }
 
     return(
-        <header>
+        <header className={scrolled ? 'scrolled' : ''}>
             <figure>
                 <img src={Logo} alt="logo do SmartTrack" />
             </figure>
