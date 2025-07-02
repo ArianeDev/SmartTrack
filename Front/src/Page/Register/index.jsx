@@ -93,7 +93,7 @@ export function Register(){
 		},
 		{
 			"nameLabel": "Telefone: ",
-			"type": "text",
+			"type": "tel",
 			"placeholder": "Digite nesse modelo: (xx)xxxxx-xxxx",
 			"atributo": phone,
 			"setFunction": setPhone

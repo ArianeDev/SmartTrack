@@ -47,6 +47,7 @@ export function DataSensor(){
             "link": "/"
         }
     ]
+	// list of columns for the table
 	const listColumns = [
 		{
 			"key": "type_sensors",
@@ -73,6 +74,54 @@ export function DataSensor(){
 			"label": "Status"
 		}
 	]
+	// list of inputs for the forms
+	const listInputsForms = [
+		{
+			"nameLabel": "Tipo do sensor:",
+			"type": "text",
+			"placeholder": "Digite o tipo do sensor...",
+			"atributo": type_sensors,
+			setFunction: setTypeSensors,
+			disabled: true
+		},
+		{
+			"nameLabel": "Mac address:",
+			"type": "mac",
+			"placeholder": "__:__:__:__:__:__",
+			"atributo": mac_address,
+			setFunction: setMacAddress
+		},
+		{
+			"nameLabel": "Unidade de medida:",
+			"type": "text",
+			"placeholder": "Digite a unidade de medida...",
+			"atributo": unit_measure,
+			setFunction: setUnitMeasure,
+			disabled: true
+		},
+		{
+			"nameLabel": "Latitude:",
+			"type": "text",
+			"placeholder": "Digite a latitude...",
+			"atributo": latitude,
+			setFunction: setLatitude
+		},
+		{
+			"nameLabel": "Longitude:",
+			"type": "text",
+			"placeholder": "Digite a longitude...",
+			"atributo": longitude,
+			setFunction: setLongitude
+		},
+		{
+			"nameLabel": "Status:",
+			"type": "text",
+			"placeholder": "Digite o status...",
+			"atributo": status,
+			setFunction: setStatus
+		},
+	];
+
 	const sensorSchema = z.object({
 		type_sensors: z.enum(['temperatura', 'contador', 'luminosidade', 'umidade'], {
 			errorMap: () => ({ message: "Tipo do sensor inválido. Digite temperatura, contador, luminosidade ou umidade"})
@@ -96,6 +145,14 @@ export function DataSensor(){
 		setStatus(sensor.status);
 	}
 
+	// function for clear the modal
+	function handleClearForm() {
+		setMacAddress('');
+		setLatitude('');
+		setLongitude('');
+		setStatus('');
+	}
+
 	// Sensor get
 	async function getSensors(pageUrl = "/sensors") {
         try {
@@ -115,106 +172,6 @@ export function DataSensor(){
 			setIsLoading(false)
 		}
     }
-
-	// Sensor Update 
-	const submitUpdateSensor = async () => {
-		const updateSensor = {
-			type_sensors: type_sensors.toLowerCase(),
-			mac_address,
-			unit_measure,
-			longitude,
-			latitude,
-			status: status.toLowerCase()
-		}
-		const result = sensorSchema.safeParse(updateSensor);
-
-		if (!result.success) {
-			const firstError = result.error.errors[0].message;
-			window.alert(`Erro de validação: ${firstError}`);
-			return;
-		}
-
-		try{
-			const response = await api.put(`/sensor/${selectedId}/`, updateSensor, {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			})
-			window.alert("Atualizado com sucesso!", response.data);
-			window.location.reload();
-		} catch (error) {
-			console.log("Dados enviados:", updateSensor);
-			window.alert("Erro ao atualizar.", error)
-		}
-	}
-
-	const handleSubmitUpdate = (e) => {
-		e.preventDefault();
-		submitUpdateSensor();
-	}
-
-	const listUpdate = [
-		{
-			"title": "Atualizar",
-			"listForms": [
-				{
-					"nameLabel": "Tipo do sensor:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": type_sensors,
-					setFunction: setTypeSensors,
-					"disabled": true
-				},
-				{
-					"nameLabel": "Mac address:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": mac_address,
-					setFunction: setMacAddress
-				},
-				{
-					"nameLabel": "Unidade de medida:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": unit_measure,
-					setFunction: setUnitMeasure,
-					"disabled": true
-				},
-				{
-					"nameLabel": "Longitude:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": longitude,
-					setFunction: setLongitude
-				},
-				{
-					"nameLabel": "Latitude:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": latitude,
-					setFunction: setLatitude
-				},
-				{
-					"nameLabel": "Status:",
-					"type": "text",
-					"placeholder": "",
-					"atributo": status,
-					setFunction: setStatus
-				},
-			],
-			"buttonTitle": "Atualizar",
-			"method": "put",
-			"methodFunction": handleSubmitUpdate,
-			"error": ""
-		}
-	]
-
-	useEffect(() => {
-		if (sensor_type === 'temperatura') setUnitMeasure('°C');
-		else if (sensor_type === 'luminosidade') setUnitMeasure('lux');
-		else if (sensor_type === 'umidade') setUnitMeasure('%');
-		else if (sensor_type === 'contador') setUnitMeasure('uni');
-	}, []);
 
 	// Register Sensor
 	const submitRegisterSensor = async () => {
@@ -258,58 +215,68 @@ export function DataSensor(){
 	const listRegister = [
 		{
 			"title": "Cadastrar",
-			"listForms": [
-				{
-					"nameLabel": "Tipo do sensor:",
-					"type": "text",
-					"placeholder": "Digite o tipo do sensor...",
-					"atributo": type_sensors,
-					setFunction: setTypeSensors,
-					disabled: true
-				},
-				{
-					"nameLabel": "Mac address:",
-					"type": "text",
-					"placeholder": "__:__:__:__:__:__",
-					"atributo": mac_address,
-					setFunction: setMacAddress
-				},
-				{
-					"nameLabel": "Unidade de medida:",
-					"type": "text",
-					"placeholder": "Digite a unidade de medida...",
-					"atributo": unit_measure,
-					setFunction: setUnitMeasure,
-					disabled: true
-				},
-				{
-					"nameLabel": "Latitude:",
-					"type": "text",
-					"placeholder": "Digite a latitude...",
-					"atributo": latitude,
-					setFunction: setLatitude
-				},
-				{
-					"nameLabel": "Longitude:",
-					"type": "text",
-					"placeholder": "Digite a longitude...",
-					"atributo": longitude,
-					setFunction: setLongitude
-				},
-				{
-					"nameLabel": "Status:",
-					"type": "text",
-					"placeholder": "Digite o status...",
-					"atributo": status,
-					setFunction: setStatus
-				},
-			],
+			"listForms": listInputsForms,
 			"buttonTitle": "Cadastrar",
 			"method": "post",
 			"methodFunction": handleSubmit,
 			"error": ""
 		}
 	]
+
+	// Sensor Update 
+	const submitUpdateSensor = async () => {
+		const updateSensor = {
+			type_sensors: type_sensors.toLowerCase(),
+			mac_address,
+			unit_measure,
+			longitude,
+			latitude,
+			status: status.toLowerCase()
+		}
+		const result = sensorSchema.safeParse(updateSensor);
+
+		if (!result.success) {
+			const firstError = result.error.errors[0].message;
+			window.alert(`Erro de validação: ${firstError}`);
+			return;
+		}
+
+		try{
+			const response = await api.put(`/sensor/${selectedId}/`, updateSensor, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			window.alert("Atualizado com sucesso!", response.data);
+			window.location.reload();
+		} catch (error) {
+			console.log("Dados enviados:", updateSensor);
+			window.alert("Erro ao atualizar.", error)
+		}
+	}
+
+	const handleSubmitUpdate = (e) => {
+		e.preventDefault();
+		submitUpdateSensor();
+	}
+
+	const listUpdate = [
+		{
+			"title": "Atualizar",
+			"listForms": listInputsForms,
+			"buttonTitle": "Atualizar",
+			"method": "put",
+			"methodFunction": handleSubmitUpdate,
+			"error": ""
+		}
+	]
+
+	useEffect(() => {
+		if (sensor_type === 'temperatura') setUnitMeasure('°C');
+		else if (sensor_type === 'luminosidade') setUnitMeasure('lux');
+		else if (sensor_type === 'umidade') setUnitMeasure('%');
+		else if (sensor_type === 'contador') setUnitMeasure('uni');
+	}, []);
 
 	// Delete Sensor
 	const submitDeleteSensor = async (id) => {
@@ -406,6 +373,7 @@ export function DataSensor(){
 				<MenuActions 
 					listRegister={listRegister}
 					exportExcel={exportDataSensor}
+					clearForms={handleClearForm}
 					page="S"
 					urlType="sensors"
 				/>

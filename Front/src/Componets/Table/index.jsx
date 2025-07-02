@@ -18,7 +18,8 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
         setSensorSelect(null);
         setIsOpen(false);
     }
-
+    console.log(data);
+    
     return(
         <>
             <table>
@@ -57,9 +58,9 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                                         className='itensTable'>
                                         {
                                             col.key === 'status' ? (item[col.key].toLowerCase() === 'ativo' || item[col.key].toLowerCase() === "true" ? 
-                                                <div className='green' title='Ativo'></div>
+                                                <div className='green' title='Ativo'><p>Ativo</p></div>
                                                 :
-                                                <div className='red' title='Inativo'></div>
+                                                <div className='red' title='Inativo'><p>Inativo</p></div>
                                             ): item[col.key]
                                         }
                                     </td>
@@ -94,6 +95,50 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                     </tbody>
                 )}
             </table>
+
+            <section className="card">
+                {data.map((item, key) => (
+                    <div className="card-item" key={key}>
+                        <div className="header-card">
+                            <div className="icons-header">
+                                <span title='Deletar'>
+                                    <button onClick={() => submitDelete(item.id)}><Trash2 className='trash'/></button>
+                                </span>
+                                <span title='Atualizar'>
+                                    <button 
+                                        onClick={() => {
+                                            handleOpenModal(item);
+                                            onSelect(item);
+                                        }}>
+                                        <UserPen className='userPen'/>
+                                    </button>
+                                </span>
+                            </div>
+                            <p className='status-card'>
+                                {
+                                    item.status.toLowerCase() === 'ativo' || item[col.key].toLowerCase() === "true" ? 
+                                        <div className='green' title='Ativo'><p>Ativo</p></div>
+                                        :
+                                        <div className='red' title='Inativo'><p>Inativo</p></div>
+                                }
+                            </p>
+                        </div>
+                        <div className="content-card">
+                            <h3>{item.type_sensors}</h3>
+                            <p>Mac address: <span>{item.mac_address}</span></p>
+                            <p>Latitude: <span>{item.latitude}</span></p>
+                            <p>Longitude: <span>{item.longitude}</span></p>
+                            <p>Unidade de medida: <span>{item.unit_measure}</span></p>
+                        </div>
+                    </div>
+                ))}
+                {Array.from({length: Math.max(0, 10 - data.length)}).map((_,key) => (
+                    <div className="card-item-skeleton" key={key}>
+                        
+                    </div>
+                ))}
+            </section>
+
             {isOpen && (
                 <Modal
                     isOpen={isOpen}

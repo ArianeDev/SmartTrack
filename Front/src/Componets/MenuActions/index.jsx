@@ -5,7 +5,7 @@ import { Upload, Download, Plus, ChevronsDown, ChevronsUp } from 'lucide-react';
 import './style.sass';
 import { UploadExcel } from '../UploadExcel';
 
-export function MenuActions({ listRegister, exportExcel, page, urlType }) {
+export function MenuActions({ listRegister, exportExcel, clearForms, page, urlType }) {
     const [isOpen, setIsopen] = useState(false);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [shouldRender, setShouldRender] = useState(false);
@@ -46,6 +46,7 @@ export function MenuActions({ listRegister, exportExcel, page, urlType }) {
                                 title='Cadastrar'
                                 className={`option option-A ${isOpen ? 'active' : 'hide'}`} 
                                 onClick={() => {
+                                    clearForms();
                                     handleOpenModal();
                                     setSelectedAction('A');
                                 }}

@@ -9,6 +9,7 @@ table
     height: auto
     padding: 2rem
     table-layout: fixed
+    display: none
 
     thead
         height: 6vh
@@ -61,35 +62,97 @@ table
                 width: 5rem
                 align-items: center
 
-                button
-                    background-color: transparent
-                    border: none
-                    cursor: pointer
+.card
+    display: grid;
+    width: 90%;
+    gap: 2rem;
+    padding: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 auto
 
-                    .trash
-                        color: rgb(218, 0, 0)
-                        margin-left: 0.5rem
+    .card-item
+        background-color: variables.$color-white
+        padding: 1.5rem
+        border-radius: 0.5rem
+        display: flex
+        flex-direction: row-reverse
 
-                    .userPen
-                        color: rgb(88, 88, 88)
+        .header-card
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+            align-items: end
+            width: 50%
 
-                    .trash:hover, .userPen:hover
-                        color: rgb(177, 177, 177)
-                        transition: all .3s
+            .status-card
+                width: 50%
+                display: flex
+                justify-content: end
 
-.green
-    background-color: #01a30c
-    border-radius: 50%
-    height: 2rem
-    width: 2rem
+            .icons-header
+                display: flex
+                flex-direction: row-reverse
+                justify-content: space-between
+                width: 4rem
+
+        .content-card
+            width: 50%
+
+            h3
+                font-size: 1.2rem
+                font-weight: 600
+                text-transform: capitalize
+            
+            p
+                font-size: 0.9rem
+                color: variables.$color-gray-letter
+                margin-top: 0.5rem
+            span
+                color: #000
+                font-weight: 600
+                font-size: 0.9rem
+
+.card-item-skeleton
+    background-color: variables.$color-white
+    padding: 1rem
+    border-radius: 0.5rem
+    height: 154px
+
+button
+    background-color: transparent
+    border: none
     cursor: pointer
+
+    .trash
+        color: rgb(218, 0, 0)
+        margin-left: 0.5rem
+
+    .userPen
+        color: rgb(88, 88, 88)
+
+    .trash:hover, .userPen:hover
+        color: rgb(177, 177, 177)
+        transition: all .3s
+    
+.green
+    background-color: #96ff9d
+    border: 2px solid #4caf50
+    border-radius: 0.5rem
+    color: #4caf50
+    font-weight: 600
+    padding: 0.3rem
+    text-align: center
+    width: 50%
 
 .red
-    background-color: #b40000
-    border-radius: 50%
-    height: 2rem
-    width: 2rem
-    cursor: pointer
+    background-color: #ff9696
+    border: 2px solid #af4c4c
+    border-radius: 0.5rem
+    color: #af4c4c
+    font-weight: 600
+    padding: 0.3rem
+    text-align: center
+    width: 50%
 
 @keyframes shimmer
     0%
