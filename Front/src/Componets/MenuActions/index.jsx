@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Modal } from '../Modal';
 import { Forms } from '../Forms';
 import { Upload, Download, Plus, ChevronsDown, ChevronsUp } from 'lucide-react';
+import { useTour } from '@reactour/tour';
 import './style.sass';
 import { UploadExcel } from '../UploadExcel';
 
@@ -10,6 +11,7 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [shouldRender, setShouldRender] = useState(false);
     const [selectedAction, setSelectedAction] = useState(null);
+    const { setIsOpen: startTour } = useTour();
 
     function handleOpenModal() {
         setIsOpenModal(true);
@@ -18,6 +20,25 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
     function handleCloseModal() {
         setIsOpenModal(false);
     }
+
+    useEffect(() => {
+        const hasVisited = localStorage.getItem('hasVisited');
+
+        if (!hasVisited) {
+            
+            const timeout = setTimeout(() => {
+                startTour(true);
+                localStorage.setItem('hasVisited', 'true');
+                
+                setTimeout(() => {
+                    setIsopen(true);
+                }, 500);
+                
+            }, 100);
+            
+            return () => clearTimeout(timeout);
+        }
+    }, []);
 
     useEffect(() => {
         if (isOpen) {
@@ -44,6 +65,7 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
                         {page === 'S' && (
                             <button 
                                 title='Cadastrar'
+                                id='RegisterItems'
                                 className={`option option-A ${isOpen ? 'active' : 'hide'}`} 
                                 onClick={() => {
                                     clearForms();
@@ -56,6 +78,7 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
                         )}
                         <button 
                             title='Exportar'
+                            id='UploadItems'
                             className={`option option-B ${isOpen ? 'active' : 'hide'}`} 
                             onClick={() => {
                                 exportExcel();
@@ -65,6 +88,7 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
                         </button>
                         <button 
                             title='Importar'
+                            id='ImportItems'
                             className={`option option-C ${isOpen ? 'active' : 'hide'}`}
                             onClick={() => {
                                 handleOpenModal();
@@ -76,7 +100,7 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
                     </div>
                 }
                 <input type="checkbox" id='textMenu' className='checkbox' checked={isOpen} onChange={handleToggle} />
-                <label className='btn-menuActions' htmlFor="textMenu">
+                <label className='btn-menuActions' id='BtnFirst' htmlFor="textMenu">
                     {isOpen ? <ChevronsDown  className='iconDown' /> : <ChevronsUp className='iconUp' />}
                 </label>
             </section>
@@ -87,7 +111,7 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
                 >
                     {selectedAction === 'A' && 
                         <div>
-                            {listRegister.map((item,key) => (
+                            {listRegister.map((item, key) => (
                                 <Forms 
                                     title={item.title}
                                     listForms={item.listForms} 
@@ -97,6 +121,7 @@ export function MenuActions({ listRegister, exportExcel, clearForms, page, urlTy
                                     method={item.method} 
                                     methodFunction={item.methodFunction}
                                     error={item.error}
+                                    key={key}
                                 />
                             ))}
                         </div>

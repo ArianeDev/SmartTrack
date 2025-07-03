@@ -116,7 +116,7 @@ export function Table({ data, columns, submitDelete, listForms, onSelect, loadin
                             </div>
                             <p className='status-card'>
                                 {
-                                    item.status.toLowerCase() === 'ativo' || item[col.key].toLowerCase() === "true" ? 
+                                    item.status === 'ativo' || item.status === "true" ? 
                                         <div className='green' title='Ativo'><p>Ativo</p></div>
                                         :
                                         <div className='red' title='Inativo'><p>Inativo</p></div>

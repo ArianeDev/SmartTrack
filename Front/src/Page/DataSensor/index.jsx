@@ -1,12 +1,13 @@
 import api from "../../Service/api";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Footer } from "../../Componets/Footer";
 import { Header } from "../../Componets/Header";
 import { MenuActions } from "../../Componets/MenuActions";
 import { Table } from "../../Componets/Table";
+import { TourProvider } from '@reactour/tour';
 import { z } from "zod";
 import './style.sass';
-import { Footer } from "../../Componets/Footer";
 
 export function DataSensor(){
 	// local storage data
@@ -30,6 +31,26 @@ export function DataSensor(){
 	// animation
 	const [isLoading, setIsLoading] = useState(false);
 	const [initialLoading, setInitialLoading] = useState(true);
+
+	// tutorial de como usar o button
+    const steps = [
+		{
+			selector: '#BtnFirst',
+			content: 'Clique aqui para ver as funções.',
+		},
+		{
+			selector: '#RegisterItems',
+			content: 'Clique aqui para cadastrar novos dados.',
+		},
+		{
+			selector: '#UploadItems',
+			content: 'Este botão exporta os dados em Excel.',
+		},
+		{
+			selector: '#ImportItems',
+			content: 'Use este para importar dados via planilha.',
+		},
+	];
 
 	// header items
     const linkHeader = [
@@ -290,7 +311,7 @@ export function DataSensor(){
 			
 			getSensors();
 		} catch (error) {
-			window.alert("Não foi possível deletar o sensor!")
+			window.alert("Não foi possível deletar o sensor!", error)
 		}
 	}
 
@@ -334,7 +355,7 @@ export function DataSensor(){
 	}, []);
 
 	return (
-		<>
+		<TourProvider steps={steps}>
 			<Header linkHeader={linkHeader} />
 			<main className='container-table'>
 				<div className="table-header">
@@ -379,6 +400,6 @@ export function DataSensor(){
 				/>
 			</main>
 			<Footer />
-		</>
+		</TourProvider>
 	)
 }
